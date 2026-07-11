@@ -1,0 +1,11 @@
+    // —— 双方案道路轨迹与里程/时长（OSRM 预取，构建时由 tools/apply_patch.mjs 注入）——
+    const roadTracksByPlan=__TRACKS__;
+    const routeStatsByPlan=__STATS__;
+    const fmtKm=km=>km.toLocaleString('zh-CN');
+    const fmtDur=min=>{const h=Math.floor(min/60),m=Math.round(min%60);return h?`${h}h${m?' '+String(m).padStart(2,'0')+'m':''}`:`${m}m`};
+    const isFlyDay=()=>(dayStats[selected]||{}).m==='fly';
+    const planTotals={};let currentPlan='a';
+    for(const pid of['a','b']){const st=routeStatsByPlan[pid];let km=0,min=0;st.forEach(s=>{if(s.m!=='fly'){km+=s.km;min+=s.min}});planTotals[pid]={km,min,fly:st.find(s=>s.m==='fly')||null};st.forEach((s,i)=>{const row=planData[pid][i];if(!row)return;if(s.m==='fly'){row[5]=`直飞约 ${fmtDur(s.min)}`;row[6]=`空中 ≈ ${fmtKm(s.km)} km`}else if(s.km>0){row[5]=fmtDur(s.min);row[6]=`约 ${fmtKm(s.km)} km`}else{row[5]='当地活动';row[6]='市内短驳'}})}
+    document.querySelectorAll('.plan-card').forEach(card=>{const t=planTotals[card.dataset.plan];if(!t)return;const meta=card.querySelector('.plan-meta');if(meta)meta.textContent=`${planData[card.dataset.plan].length} 天 · 自驾 ≈${fmtKm(t.km)} km · 车程 ≈${Math.round(t.min/60)}h${t.fly?' · ✈ 飞返':''} →`});
+    function midPointOf(track){const cum=buildDist(track),total=cum[cum.length-1];if(!total)return track[0];const half=total/2;let j=1;while(j<cum.length&&cum[j]<half)j++;const a=track[j-1],b=track[j]||a,seg=(cum[j]-cum[j-1])||1,t=(half-cum[j-1])/seg;return[a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t]}
+    function addDistLabel(layer,track){const s=dayStats[selected]||{};if(!(s.km>0))return;const txt=s.m==='fly'?`✈ 直飞 ≈ ${fmtKm(s.km)} km · ${fmtDur(s.min)}`:`≈ ${fmtKm(s.km)} km · 纯驾车 ${fmtDur(s.min)}`;L.circleMarker(midPointOf(track),{radius:0,stroke:false,fillOpacity:0,interactive:false}).addTo(layer).bindTooltip(txt,{permanent:true,className:'dist-label',direction:'top',offset:[0,-6]}).openTooltip()}

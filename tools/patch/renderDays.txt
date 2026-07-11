@@ -1,0 +1,1 @@
+    function renderDays(){$('#day-list').innerHTML=plans.map((x,i)=>{const s=dayStats[i]||{},tag=s.m==='fly'?'✈ 飞返':s.km>0?`${fmtKm(s.km)} km`:'游玩日';return`<button class="day" onclick="choose(${i})"><small>D${i+1}</small><strong>${x[0]}</strong><em>${tag}</em></button>`}).join('')}

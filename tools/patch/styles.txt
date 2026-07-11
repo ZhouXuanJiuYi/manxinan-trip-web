@@ -1,0 +1,19 @@
+  <style>
+    /* —— 每日与全程里程/时长醒目标注 —— */
+    .day{min-width:78px}
+    .day em{display:block;font-size:10px;font-style:normal;font-weight:800;color:#efb65f;margin-top:3px;white-space:nowrap}
+    .day.active em{color:#153f37}
+    .map-info{display:flex;gap:13px;align-items:stretch}
+    .map-info .mi-main{flex:1;min-width:0}
+    .map-info .mi-stat{border-left:1px solid rgba(255,255,255,.25);padding-left:13px;display:grid;align-content:center;gap:3px;white-space:nowrap}
+    .map-info .mi-stat small{color:#f0bb68;font-size:9px;letter-spacing:.13em}
+    .map-info .mi-stat b{font:21px/1 Georgia,serif;color:#ffd27f;margin:0}
+    .map-info .mi-stat b i{font-style:normal;font-size:11px;margin-left:3px;color:#ecd3a6}
+    .leaflet-tooltip.dist-label{border:0;border-radius:3px;background:#df6749;color:#fff7e8;font-size:12.5px;font-weight:800;padding:6px 10px;box-shadow:0 4px 14px #6f2c1a66;letter-spacing:.02em}
+    .leaflet-tooltip.dist-label:before{border-top-color:#df6749}
+    .data div.hl{display:grid;gap:4px;border-left:3px solid #df6749;padding-left:10px}
+    .data div.hl span{color:#8a6a4f}
+    .data div.hl b{font:24px/1 Georgia,serif;color:#c5674b;letter-spacing:-.02em}
+    .data div.hl b i{font-style:normal;font-size:12px;color:#8b978d;letter-spacing:0}
+    @media(max-width:750px){.map-info{flex-wrap:wrap;gap:8px 13px}.map-info .mi-main{flex-basis:100%}.map-info .mi-stat{border-left:0;padding-left:0;border-top:1px solid rgba(255,255,255,.18);padding-top:7px;flex:1}.data div.hl{border-left:0;padding-left:0}.data div.hl b{font-size:20px}}
+  </style>
