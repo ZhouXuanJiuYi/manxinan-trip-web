@@ -1,6 +1,65 @@
 {
   "version": 1,
-  "updatedAt": null,
-  "accommodations": [],
-  "foods": []
+  "updatedAt": "2026-07-12T09:53:30.541Z",
+  "accommodations": [
+    {
+      "id": "1783846298855-a5802aac1c21e8",
+      "city": "襄阳",
+      "stayDate": "2026-07-24",
+      "name": "一家民宿 白家巷23号楼",
+      "price": 514,
+      "rooms": 4,
+      "status": "pending",
+      "address": "白家巷23号楼",
+      "note": "方案一:除去司机之外住这个民宿 8个人 四张床",
+      "deadline": "2026-07-24T14:00"
+    },
+    {
+      "id": "1783847352811-4f8155a51a1c9",
+      "city": "襄阳",
+      "stayDate": "2026-07-25",
+      "name": "汉庭襄阳古城盛世唐城酒店",
+      "price": 292,
+      "rooms": 1,
+      "status": "pending",
+      "address": "汉庭襄阳古城盛世唐城酒店",
+      "note": "方案一:司机两个人住个汉庭双床,好好休息",
+      "deadline": "2026-07-25T12:00"
+    },
+    {
+      "id": "1783847428162-098279704112d",
+      "city": "襄阳",
+      "stayDate": "2026-07-25",
+      "name": "汉庭襄阳古城盛世唐城酒店",
+      "price": 1184,
+      "rooms": 4,
+      "status": "pending",
+      "address": "汉庭襄阳古城盛世唐城酒店",
+      "note": "方案二:全家住汉庭",
+      "deadline": "2026-07-25T12:00"
+    },
+    {
+      "id": "1783848019540-72a49c4ff27768",
+      "city": "襄阳",
+      "stayDate": "2026-07-25",
+      "name": "城南酒店Seong nam Hotel(襄阳古城店)",
+      "price": 908,
+      "rooms": 3,
+      "status": "pending",
+      "address": "城南酒店Seong nam Hotel(襄阳古城店)",
+      "note": "方案三:当地新酒店,干净卫生.",
+      "deadline": "2026-07-25T18:00"
+    }
+  ],
+  "foods": [
+    {
+      "id": "1783846013368-8d919b8936a1b",
+      "location": "襄阳",
+      "name": "肖家厨房·襄阳菜·唐城·古城美食",
+      "price": 66,
+      "status": "want",
+      "address": "汉唐大道与常青路交叉口东北角",
+      "note": "2200关门"
+    }
+  ]
 }
