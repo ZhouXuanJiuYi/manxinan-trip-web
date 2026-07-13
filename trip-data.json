@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-13T15:33:50.048Z",
+  "updatedAt": "2026-07-13T15:36:50.527Z",
   "accommodations": [
     {
       "id": "1783846298855-a5802aac1c21e8",
@@ -97,6 +97,14 @@
       "day": 2,
       "location": "宜昌",
       "name": "三峡大坝",
+      "note": ""
+    },
+    {
+      "id": "1783957007990-fa2f8baa165398",
+      "plan": "a",
+      "day": 3,
+      "location": "恩施",
+      "name": "恩施市区游览",
       "note": ""
     }
   ]
