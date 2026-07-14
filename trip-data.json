@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-14T11:19:48.861Z",
+  "updatedAt": "2026-07-14T11:22:00.783Z",
   "accommodations": [
     {
       "id": "1783846298855-a5802aac1c21e8",
@@ -19,11 +19,11 @@
       "city": "襄阳",
       "stayDate": "2026-07-25",
       "name": "汉庭襄阳古城盛世唐城酒店",
-      "price": 292,
+      "price": 258,
       "rooms": 1,
-      "status": "pending",
+      "status": "booked",
       "address": "汉庭襄阳古城盛世唐城酒店",
-      "note": "方案一:司机两个人住个汉庭双床,好好休息",
+      "note": "方案一:司机两个人住个汉庭双床,好好休息.双人间.",
       "deadline": "2026-07-25T12:00"
     },
     {
@@ -31,7 +31,7 @@
       "city": "襄阳",
       "stayDate": "2026-07-25",
       "name": "汉庭襄阳古城盛世唐城酒店",
-      "price": 1184,
+      "price": 1050,
       "rooms": 4,
       "status": "pending",
       "address": "汉庭襄阳古城盛世唐城酒店",
