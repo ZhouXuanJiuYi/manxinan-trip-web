@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-14T11:22:00.783Z",
+  "updatedAt": "2026-07-14T11:25:20.765Z",
   "accommodations": [
     {
       "id": "1783846298855-a5802aac1c21e8",
@@ -85,6 +85,18 @@
       "address": "",
       "note": "",
       "deadline": ""
+    },
+    {
+      "id": "1784028318376-fc41559ce54d7",
+      "city": "宜昌",
+      "stayDate": "2026-07-26",
+      "name": "星程宜昌万达广场沿江大道酒店",
+      "price": 1344,
+      "rooms": 4,
+      "status": "pending",
+      "address": "星程宜昌万达广场沿江大道酒店",
+      "note": "",
+      "deadline": "2026-07-26T20:00"
     }
   ],
   "foods": [
