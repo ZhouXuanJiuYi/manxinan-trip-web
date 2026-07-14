@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-14T11:41:43.575Z",
+  "updatedAt": "2026-07-14T11:49:54.981Z",
   "accommodations": [
     {
       "id": "1783846298855-a5802aac1c21e8",
@@ -109,6 +109,18 @@
       "address": "咸丰文化路大坝新城特1号",
       "note": "两个双床+两个亲子房",
       "deadline": "2026-07-28T20:00"
+    },
+    {
+      "id": "1784029792725-7603849763b5d",
+      "city": "镇远",
+      "stayDate": "2026-07-29",
+      "name": "还没找民宿",
+      "price": 1,
+      "rooms": 1,
+      "status": "pending",
+      "address": "找家好的民宿,在古镇里住一晚.",
+      "note": "",
+      "deadline": ""
     }
   ],
   "foods": [
