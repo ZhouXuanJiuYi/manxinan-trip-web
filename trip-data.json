@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-14T11:18:03.991Z",
+  "updatedAt": "2026-07-14T11:19:48.861Z",
   "accommodations": [
     {
       "id": "1783846298855-a5802aac1c21e8",
@@ -37,18 +37,6 @@
       "address": "汉庭襄阳古城盛世唐城酒店",
       "note": "方案二:全家住汉庭",
       "deadline": "2026-07-25T12:00"
-    },
-    {
-      "id": "1783848019540-72a49c4ff27768",
-      "city": "襄阳",
-      "stayDate": "2026-07-25",
-      "name": "城南酒店Seong nam Hotel(襄阳古城店)",
-      "price": 908,
-      "rooms": 3,
-      "status": "pending",
-      "address": "城南酒店Seong nam Hotel(襄阳古城店)",
-      "note": "方案三:当地新酒店,干净卫生.",
-      "deadline": "2026-07-25T18:00"
     },
     {
       "id": "1783912522914-21fd1189937ba",
