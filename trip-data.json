@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-14T11:31:36.564Z",
+  "updatedAt": "2026-07-14T11:38:45.519Z",
   "accommodations": [
     {
       "id": "1783846298855-a5802aac1c21e8",
@@ -97,6 +97,18 @@
       "address": "星程宜昌万达广场沿江大道酒店",
       "note": "",
       "deadline": "2026-07-26T20:00"
+    },
+    {
+      "id": "1784029123700-0fff706b470fa",
+      "city": "咸丰",
+      "stayDate": "2026-07-28",
+      "name": "咸丰国际酒店",
+      "price": 914,
+      "rooms": 4,
+      "status": "pending",
+      "address": "咸丰文化路大坝新城特1号",
+      "note": "两个双床+两个亲子房",
+      "deadline": "2026-07-28T20:00"
     }
   ],
   "foods": [
