@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-14T03:36:04.915Z",
+  "updatedAt": "2026-07-14T11:12:38.024Z",
   "accommodations": [
     {
       "id": "1783846298855-a5802aac1c21e8",
@@ -67,11 +67,11 @@
       "city": "恩施",
       "stayDate": "2026-07-27",
       "name": "汉庭恩施许家坪机场酒店",
-      "price": 1230,
-      "rooms": 4,
-      "status": "pending",
+      "price": 905,
+      "rooms": 3,
+      "status": "booked",
       "address": "汉庭恩施许家坪机场酒店",
-      "note": "很新的汉庭",
+      "note": "很新的汉庭,已经定了两个家庭房,一个高级大床房",
       "deadline": "2026-07-26T23:00"
     }
   ],
