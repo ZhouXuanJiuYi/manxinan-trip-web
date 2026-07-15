@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-15T15:32:23.472Z",
+  "updatedAt": "2026-07-15T15:33:41.025Z",
   "accommodations": [
     {
       "id": "1783846298855-a5802aac1c21e8",
@@ -9,7 +9,7 @@
       "name": "一家民宿 白家巷23号楼",
       "price": 489,
       "rooms": 4,
-      "status": "pending",
+      "status": "booked",
       "address": "白家巷23号楼",
       "note": "方案一:除去司机之外住这个民宿 8个人 四张床",
       "deadline": "2026-07-24T14:00"
