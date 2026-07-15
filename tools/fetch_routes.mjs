@@ -45,6 +45,31 @@ const planA = [
 
 const planB = [
   ['太原', [], '襄阳'],
+  ['襄阳', ['三峡大坝'], '恩施'],
+  ['恩施', ['恩施大峡谷'], '咸丰'],
+  ['咸丰', [], '镇远'],
+  ['镇远', ['中国天眼'], '荔波'],
+  ['荔波', ['小七孔'], '贵阳'],
+  ['贵阳', [], '贵阳'],
+  ['贵阳', ['黄果树瀑布', '马岭河'], '兴义'],
+  ['兴义', ['万峰林', '弥勒'], '抚仙湖'],
+  ['抚仙湖', [], '抚仙湖'],
+  ['抚仙湖', [], '昆明'],
+  ['昆明', [], '昆明'],
+  ['昆明', [], '昆明'],
+  ['昆明', [], '大理'],
+  ['大理', ['大理古城'], '大理'],
+  ['大理', [], '腾冲'],
+  ['腾冲', [], '腾冲'],
+  ['腾冲', [], '腾冲'],
+  ['腾冲', [], '普洱'],
+  ['普洱', [], '西双版纳'],
+  ['西双版纳', [], '西双版纳'],
+  ['西双版纳', [], '太原', 'fly'],
+];
+
+const planC = [
+  ['太原', [], '襄阳'],
   ['襄阳', ['三峡大坝'], '宜昌'],
   ['宜昌', ['清江'], '恩施'],
   ['恩施', ['恩施大峡谷'], '恩施'],
@@ -176,7 +201,8 @@ async function buildPlanTracks(rows, label) {
 
 const a = await buildPlanTracks(planA, 'A');
 const b = await buildPlanTracks(planB, 'B');
-const output = { tracks: { a: a.tracks, b: b.tracks }, stats: { a: a.stats, b: b.stats } };
+const c = await buildPlanTracks(planC, 'C');
+const output = { tracks: { a: a.tracks, b: b.tracks, c: c.tracks }, stats: { a: a.stats, b: b.stats, c: c.stats } };
 const outPath = new URL('./routes.json', import.meta.url);
 await import('node:fs/promises').then((fs) => fs.writeFile(outPath, JSON.stringify(output)));
 const size = JSON.stringify(output.tracks).length;
