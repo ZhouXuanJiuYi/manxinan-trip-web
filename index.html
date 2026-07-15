@@ -719,6 +719,11 @@ svg.leaflet-image-layer.leaflet-interactive path {
     .day{min-width:122px}
     .day em{display:block;font-size:11px;font-style:normal;font-weight:800;color:#efb65f;margin-top:5px;white-space:nowrap;letter-spacing:.03em}
     .day.active em{color:#153f37}
+    .day .ds{display:block;font-size:10.5px;font-weight:500;color:#cfe0d2;margin-top:3px;white-space:nowrap}
+    .day .ds::before{content:'✦ ';color:#efb65f}
+    .day .ds:first-of-type{margin-top:7px;padding-top:6px;border-top:1px dashed #ffffff2e}
+    .day.active .ds,.day.active .ds::before{color:#153f37}
+    .day.active .ds:first-of-type{border-top-color:#153f3752}
     .map-info{display:flex;gap:13px;align-items:stretch}
     .map-info .mi-main{flex:1;min-width:0}
     .map-info .mi-stat{border-left:1px solid rgba(255,255,255,.25);padding-left:13px;display:grid;align-content:center;gap:3px;white-space:nowrap}
@@ -769,53 +774,53 @@ svg.leaflet-image-layer.leaflet-interactive path {
     const elevations={太原:800,襄阳:70,宜昌:60,恩施:420,咸丰:760,镇远:470,千户苗寨:880,荔波:430,贵阳:1130,安顺:1380,兴义:1200,抚仙湖:1720,昆明:1890,大理:1975,丽江:2418,攀枝花:1180,昭通:1920,巴中:300,渭南:350,普洱:1300,腾冲:1640,西双版纳:560};
     const weekdays=['周日','周一','周二','周三','周四','周五','周六'],palette=['#f5c38d','#efd18b','#9fd8c8','#aacbe4','#d1b9df','#b6dc9e'];
     function planDate(index){const date=new Date(Date.UTC(2026,6,25+index));return{label:`${date.getUTCMonth()+1}.${String(date.getUTCDate()).padStart(2,'0')}`,week:weekdays[date.getUTCDay()]}}
-    function buildPlan(rows){return rows.map(([title,from,to,via=[],sights='',note='',mode=''],index)=>{const date=planDate(index),local=from===to,point=places[to],flight=mode==='飞机';return[date.label,date.week,title,from,to,flight?'按航班时刻':local?'当地活动':'以导航为准',flight?'机场接驳':local?'当地活动':'里程以导航为准',mode|| (local?'游玩日':'自驾转场'),sights||`${from} → ${to}`,to==='太原'?'太原 · 家':`${to} · 住宿待定`,`${to} · 当地餐食`,note||'行车时间与道路情况请以当天导航和天气预警为准。',to,point[0],point[1],palette[index%palette.length],via]})}
+    function buildPlan(rows){return rows.map(([title,from,to,via=[],sights='',note='',mode=''],index)=>{const date=planDate(index),local=from===to,point=places[to],flight=mode==='飞机';return[date.label,date.week,title,from,to,flight?'按航班时刻':local?'当地活动':'以导航为准',flight?'机场接驳':local?'当地活动':'里程以导航为准',mode|| (local?'游玩日':'自驾转场'),sights,to==='太原'?'太原 · 家':`${to} · 住宿待定`,`${to} · 当地餐食`,note||'行车时间与道路情况请以当天导航和天气预警为准。',to,point[0],point[1],palette[index%palette.length],via]})}
     const planData={a:buildPlan([
-      ['南下到襄阳','太原','襄阳',[],'古城北街|汉江夜景'],
-      ['三峡之后住宜昌','襄阳','宜昌',['三峡大坝'],'三峡大坝|坛子岭|宜昌江景'],
-      ['宜昌进入恩施','宜昌','恩施',[],'土家女儿城|恩施夜景'],
-      ['大峡谷后住咸丰','恩施','咸丰',['恩施大峡谷'],'恩施大峡谷|七星寨|云龙地缝'],
-      ['前往镇远古城','咸丰','镇远',[],'镇远古城|舞阳河夜景'],
-      ['天眼之后住荔波','镇远','荔波',['中国天眼'],'中国天眼周边|荔波夜市'],
-      ['小七孔后到贵阳','荔波','贵阳',['小七孔'],'荔波小七孔|甲秀楼|青云市集'],
-      ['贵阳当地游','贵阳','贵阳',[],'黔灵山公园|双子塔|花果园白宫'],
+      ['南下到襄阳','太原','襄阳',[],''],
+      ['三峡之后住宜昌','襄阳','宜昌',['三峡大坝'],'三峡大坝|长江夜景（游船）'],
+      ['宜昌进入恩施','宜昌','恩施',[],'中华鲟或长江珍稀鱼类科普|恩施土司城|土家女儿城'],
+      ['大峡谷后住咸丰','恩施','咸丰',['恩施大峡谷'],'恩施大峡谷'],
+      ['前往镇远古城','咸丰','镇远',[],'镇远古城|石屏山'],
+      ['天眼之后住荔波','镇远','荔波',['中国天眼'],'中国天眼区域|荔波古镇|樟江夜景'],
+      ['小七孔后到贵阳','荔波','贵阳',['小七孔'],'小七孔古桥|跌水瀑布|卧龙潭'],
+      ['贵阳当地游','贵阳','贵阳',[],'黔灵山公园|双子塔|花果园白宫|甲秀楼|青云市集'],
       ['黄果树、马岭河到兴义','贵阳','兴义',['黄果树瀑布','马岭河'],'黄果树瀑布|马岭河大峡谷'],
       ['万峰林、弥勒到抚仙湖','兴义','抚仙湖',['万峰林','弥勒'],'万峰林|弥勒湖泉|抚仙湖日落'],
-      ['抚仙湖度假','抚仙湖','抚仙湖',[],'湖畔休闲|亲水散步|家庭休整'],
+      ['抚仙湖度假','抚仙湖','抚仙湖',[],'澄江化石地自然博物馆|湖畔休闲|亲水散步'],
       ['抚仙湖到昆明','抚仙湖','昆明',[],'湖畔晨光|昆明夜景'],
-      ['昆明留白日','昆明','昆明',[],'翠湖|云南省博物馆（择一）'],
-      ['昆明再停一日','昆明','昆明',[],'滇池|西山（择一）'],
+      ['昆明留白日','昆明','昆明',[],'云南野生动物园|斗南花卉市场'],
+      ['昆明再停一日','昆明','昆明',[],'滇池|西山'],
       ['昆明到大理','昆明','大理',[],'大理古城|洱海夜景'],
-      ['大理当地游','大理','大理',['大理古城'],'大理古城|洱海环线（择一）'],
-      ['大理到腾冲','大理','腾冲',[],'沿途休息区|抵达后休整'],
-      ['腾冲当地游','腾冲','腾冲',[],'和顺古镇|温泉（择一）'],
-      ['腾冲到普洱','腾冲','普洱',[],'沿途仅作休息补给'],
-      ['普洱到西双版纳','普洱','西双版纳',[],'告庄夜市|澜沧江夜景'],
-      ['西双版纳当地游','西双版纳','西双版纳',[],'热带植物园|傣族园（择一）'],
-      ['西双版纳飞回太原','西双版纳','太原',[],'景洪机场出发|抵达太原','请以当天航班时刻、行李额度与中转安排为准。','飞机']
+      ['大理当地游','大理','大理',['大理古城'],'洱海西岸轻松线'],
+      ['大理到腾冲','大理','腾冲',[],'龙江特大桥观景区|温泉酒店休整'],
+      ['腾冲当地游','腾冲','腾冲',[],'火山地质公园|滇西抗战纪念馆'],
+      ['腾冲到普洱','腾冲','普洱',[],''],
+      ['普洱到西双版纳','普洱','西双版纳',[],'普洱太阳河森林公园|野象谷'],
+      ['西双版纳当地游','西双版纳','西双版纳',[],'热带植物园|傣族园'],
+      ['西双版纳飞回太原','西双版纳','太原',[],'回家','请以当天航班时刻、行李额度与中转安排为准。','飞机']
     ]),b:buildPlan([
-      ['南下到襄阳','太原','襄阳',[],'古城北街|汉江夜景'],
-      ['三峡之后直进恩施','襄阳','恩施',['三峡大坝'],'三峡大坝|坛子岭|恩施夜景'],
-      ['大峡谷后住咸丰','恩施','咸丰',['恩施大峡谷'],'恩施大峡谷|七星寨|云龙地缝'],
-      ['前往镇远古城','咸丰','镇远',[],'镇远古城|舞阳河夜景'],
-      ['天眼之后住荔波','镇远','荔波',['中国天眼'],'中国天眼周边|荔波夜市'],
-      ['小七孔后到贵阳','荔波','贵阳',['小七孔'],'荔波小七孔|甲秀楼|青云市集'],
-      ['贵阳当地游','贵阳','贵阳',[],'黔灵山公园|双子塔|花果园白宫'],
+      ['南下到襄阳','太原','襄阳',[],''],
+      ['三峡之后直进恩施','襄阳','恩施',['三峡大坝'],'三峡大坝'],
+      ['大峡谷后住咸丰','恩施','咸丰',['恩施大峡谷'],'恩施大峡谷'],
+      ['前往镇远古城','咸丰','镇远',[],'镇远古城|石屏山'],
+      ['天眼之后住荔波','镇远','荔波',['中国天眼'],'中国天眼区域|荔波古镇|樟江夜景'],
+      ['小七孔后到贵阳','荔波','贵阳',['小七孔'],'小七孔古桥|跌水瀑布|卧龙潭'],
+      ['贵阳当地游','贵阳','贵阳',[],'黔灵山公园|双子塔|花果园白宫|甲秀楼|青云市集'],
       ['黄果树、马岭河到兴义','贵阳','兴义',['黄果树瀑布','马岭河'],'黄果树瀑布|马岭河大峡谷'],
       ['万峰林、弥勒到抚仙湖','兴义','抚仙湖',['万峰林','弥勒'],'万峰林|弥勒湖泉|抚仙湖日落'],
-      ['抚仙湖度假','抚仙湖','抚仙湖',[],'湖畔休闲|亲水散步|家庭休整'],
+      ['抚仙湖度假','抚仙湖','抚仙湖',[],'澄江化石地自然博物馆|湖畔休闲|亲水散步'],
       ['抚仙湖到昆明','抚仙湖','昆明',[],'湖畔晨光|昆明夜景'],
-      ['昆明留白日','昆明','昆明',[],'翠湖|云南省博物馆（择一）'],
-      ['昆明再停一日','昆明','昆明',[],'滇池|西山（择一）'],
+      ['昆明留白日','昆明','昆明',[],'云南野生动物园|斗南花卉市场'],
+      ['昆明再停一日','昆明','昆明',[],'滇池|西山'],
       ['昆明到大理','昆明','大理',[],'大理古城|洱海夜景'],
-      ['大理当地游','大理','大理',['大理古城'],'大理古城|洱海环线（择一）'],
-      ['大理到腾冲','大理','腾冲',[],'沿途休息区|抵达后休整'],
-      ['腾冲当地游','腾冲','腾冲',[],'和顺古镇|温泉（择一）'],
-      ['腾冲再停一日','腾冲','腾冲',[],'火山地质公园|热海（择一）'],
-      ['腾冲到普洱','腾冲','普洱',[],'沿途仅作休息补给'],
-      ['普洱到西双版纳','普洱','西双版纳',[],'告庄夜市|澜沧江夜景'],
-      ['西双版纳当地游','西双版纳','西双版纳',[],'热带植物园|傣族园（择一）'],
-      ['西双版纳飞回太原','西双版纳','太原',[],'景洪机场出发|抵达太原','请以当天航班时刻、行李额度与中转安排为准。','飞机']
+      ['大理当地游','大理','大理',['大理古城'],'洱海西岸轻松线'],
+      ['大理到腾冲','大理','腾冲',[],'龙江特大桥观景区|温泉酒店休整'],
+      ['腾冲当地游','腾冲','腾冲',[],'火山地质公园|滇西抗战纪念馆'],
+      ['腾冲再停一日','腾冲','腾冲',[],'和顺古镇|热海'],
+      ['腾冲到普洱','腾冲','普洱',[],''],
+      ['普洱到西双版纳','普洱','西双版纳',[],'普洱太阳河森林公园|野象谷'],
+      ['西双版纳当地游','西双版纳','西双版纳',[],'热带植物园|傣族园'],
+      ['西双版纳飞回太原','西双版纳','太原',[],'回家','请以当天航班时刻、行李额度与中转安排为准。','飞机']
     ]),c:buildPlan([
         ['南下到襄阳','太原','襄阳',[], '古城北街|汉江夜景'],['三峡初见','襄阳','宜昌',['三峡大坝'],'三峡大坝|坛子岭|宜昌江景'],['游船进入恩施','宜昌','恩施',['清江'],'清江游船|土家女儿城'],['恩施峡谷日','恩施','恩施',['恩施大峡谷'],'恩施大峡谷|七星寨|云龙地缝'],['转场千户苗寨','恩施','千户苗寨',[],'西江千户苗寨|夜景'],['小七孔后住荔波','千户苗寨','荔波',['小七孔'],'小七孔古桥|卧龙潭|荔波夜市'],['平塘后抵达贵阳','荔波','贵阳',['平塘'],'平塘天眼周边|贵阳夜景'],['贵阳当地游','贵阳','贵阳',[],'黔灵山|青岩古镇（择一）|甲秀楼'],['前往安顺','贵阳','安顺',[],'安顺老城|文庙周边'],['瀑布与万峰林','安顺','兴义',['黄果树瀑布','万峰林'],'黄果树瀑布|万峰林日落'],['弥勒到抚仙湖','兴义','抚仙湖',['弥勒'],'弥勒湖泉|抚仙湖日落'],['抚仙湖到昆明','抚仙湖','昆明',[],'湖畔晨光|昆明夜景'],['昆明留白日','昆明','昆明',[],'翠湖|云南省博物馆（择一）'],['昆明再停一日','昆明','昆明',[],'滇池|西山（择一）'],['奔向大理','昆明','大理',[],'大理古城|洱海夜景'],['大理当地游','大理','大理',['大理古城'],'大理古城|洱海环线（择一）'],['大理到攀枝花','大理','攀枝花',[],'金沙江沿线风景'],['攀枝花到昭通','攀枝花','昭通',[],'昭通古城夜市'],['昭通到巴中','昭通','巴中',[],'巴中夜景|补给休整'],['巴中到渭南','巴中','渭南',[],'渭南老城|高速口休整'],['回到太原','渭南','太原',[],'服务区野餐|回家整理']
     ])};
@@ -872,10 +877,10 @@ svg.leaflet-image-layer.leaflet-interactive path {
     const getVisits=()=>{try{const records=JSON.parse(localStorage.getItem(VISITS_STORAGE_KEY)||'[]');return Array.isArray(records)?records:[]}catch{return[]}};
     const saveVisits=records=>{localStorage.setItem(VISITS_STORAGE_KEY,JSON.stringify(records));queueTripSync?.()};
     function renderVisitPanel(){const panel=$('#visit-panel');if(!panel)return;const p=plans[selected],day=selected+1,records=getVisits().filter(item=>item.plan===currentPlan&&item.day===day),list=$('#visit-list');list.replaceChildren();if(records.length){records.forEach(record=>{const item=document.createElement('div');item.className='visit-item';const label=document.createElement('b');label.textContent=`✦ ${record.name}`;item.append(label);if(record.note){const note=document.createElement('small');note.textContent=record.note;item.append(note)}const remove=document.createElement('button');remove.type='button';remove.title='删除';remove.textContent='×';remove.onclick=()=>{if(confirm(`删除“${record.name}”吗？`)){saveVisits(getVisits().filter(item=>item.id!==record.id));renderVisitPanel()}};item.append(remove);list.append(item)})}else{const empty=document.createElement('p');empty.className='visit-empty';empty.textContent=`还没有添加 ${p[4]} 的游览备选。`;list.append(empty)}const toggle=$('#visit-toggle'),form=$('#visit-form'),cancel=$('#visit-cancel');toggle.onclick=()=>{form.hidden=!form.hidden;if(!form.hidden)form.querySelector('input').focus()};cancel.onclick=()=>{form.reset();form.hidden=true};form.onsubmit=event=>{event.preventDefault();const name=$('#visit-name').value.trim(),note=$('#visit-note').value.trim();if(!name)return;const record={id:`${Date.now()}-${Math.random().toString(16).slice(2)}`,plan:currentPlan,day,location:p[4],name,note};saveVisits([...getVisits(),record]);form.reset();form.hidden=true;renderVisitPanel()}}
-    function render(){const p=plans[selected],day=selected+1,sights=p[8].split('|'),s=dayStats[selected]||{};let cum=0;for(let i=0;i<=selected;i++){const d=dayStats[i];if(d&&d.m!=='fly')cum+=d.km}$('#nav-now').textContent=`当前：D${day} · ${p[4]}`;$('#weather-city').textContent=`${p[12]} · D${day}`;$('#stay-name').textContent=p[9];$('#eat-name').textContent=p[10];const detail=$('#detail');detail.style.setProperty('--wash',p[15]);detail.classList.remove('swap');void detail.offsetWidth;detail.innerHTML=`<div class="number">${String(day).padStart(2,'0')}</div><div><p class="date">${p[0]} · ${p[1]} <span>${p[7]}</span></p><h3>${p[2]}</h3><div class="cities"><b>${p[3]}</b><i></i><b>${p[4]}</b></div><p class="note">${p[11]}</p></div><div class="data">${s.km>0?`<div class="hl"><span>${s.m==='fly'?'直飞时长':'纯驾车约'}</span><b>${fmtDur(s.min)}</b></div><div class="hl"><span>${s.m==='fly'?'空中距离':'今日里程'}</span><b>${fmtKm(s.km)}<i> km</i></b></div>`:`<div class="hl"><span>今日节奏</span><b>游玩日</b></div><div class="hl"><span>今日里程</span><b>市内短驳</b></div>`}<div><span>自驾累计</span><b>≈${fmtKm(cum)} / ${fmtKm(planTotals[currentPlan].km)} km</b></div><div><span>行程进度</span><b>D${day} · ${Math.round(day/plans.length*100)}%</b></div></div><div class="sights"><span>今日看什么</span>${sights.map(x=>`<b>✦ ${x}</b>`).join('')}</div><section class="visit-panel" id="visit-panel"><div class="visit-panel-head"><span>可参观游览 · ${p[4]}</span><button type="button" id="visit-toggle">填写游览</button></div><div class="visit-list" id="visit-list"></div><form class="visit-form" id="visit-form" hidden><input id="visit-name" type="text" placeholder="景点 / 活动名称，例如：古城夜游" required><input id="visit-note" type="text" placeholder="备注（可选）：预约、开放时间等"><div class="visit-actions"><button type="submit">加入今日游览</button><button class="visit-cancel" id="visit-cancel" type="button">取消</button></div></form></section><div class="detail-footer"><span>住：<b>${p[9]}</b></span><span>吃：<b>${p[10]}</b></span><button onclick="document.querySelector('#weather').scrollIntoView()">查看天气 ↗</button></div>`;detail.classList.add('swap');renderVisitPanel();updateDays();$('#weather-card').innerHTML='<div class="card-top"><span>LIVE FORECAST</span><span>需更新</span></div><div class="weather-empty"><b>☁</b><span>点击“更新天气”<br>生成当前目的地的出行建议</span></div>';$('#weather-error').textContent='';updateRouteMap()}
+    function render(){const p=plans[selected],day=selected+1,sights=(p[8]||'').split('|').filter(Boolean),s=dayStats[selected]||{};let cum=0;for(let i=0;i<=selected;i++){const d=dayStats[i];if(d&&d.m!=='fly')cum+=d.km}$('#nav-now').textContent=`当前：D${day} · ${p[4]}`;$('#weather-city').textContent=`${p[12]} · D${day}`;$('#stay-name').textContent=p[9];$('#eat-name').textContent=p[10];const detail=$('#detail');detail.style.setProperty('--wash',p[15]);detail.classList.remove('swap');void detail.offsetWidth;detail.innerHTML=`<div class="number">${String(day).padStart(2,'0')}</div><div><p class="date">${p[0]} · ${p[1]} <span>${p[7]}</span></p><h3>${p[2]}</h3><div class="cities"><b>${p[3]}</b><i></i><b>${p[4]}</b></div><p class="note">${p[11]}</p></div><div class="data">${s.km>0?`<div class="hl"><span>${s.m==='fly'?'直飞时长':'纯驾车约'}</span><b>${fmtDur(s.min)}</b></div><div class="hl"><span>${s.m==='fly'?'空中距离':'今日里程'}</span><b>${fmtKm(s.km)}<i> km</i></b></div>`:`<div class="hl"><span>今日节奏</span><b>游玩日</b></div><div class="hl"><span>今日里程</span><b>市内短驳</b></div>`}<div><span>自驾累计</span><b>≈${fmtKm(cum)} / ${fmtKm(planTotals[currentPlan].km)} km</b></div><div><span>行程进度</span><b>D${day} · ${Math.round(day/plans.length*100)}%</b></div></div>${sights.length?`<div class="sights"><span>今日看什么</span>${sights.map(x=>`<b>✦ ${x}</b>`).join('')}</div>`:''}<section class="visit-panel" id="visit-panel"><div class="visit-panel-head"><span>可参观游览 · ${p[4]}</span><button type="button" id="visit-toggle">填写游览</button></div><div class="visit-list" id="visit-list"></div><form class="visit-form" id="visit-form" hidden><input id="visit-name" type="text" placeholder="景点 / 活动名称，例如：古城夜游" required><input id="visit-note" type="text" placeholder="备注（可选）：预约、开放时间等"><div class="visit-actions"><button type="submit">加入今日游览</button><button class="visit-cancel" id="visit-cancel" type="button">取消</button></div></form></section><div class="detail-footer"><span>住：<b>${p[9]}</b></span><span>吃：<b>${p[10]}</b></span><button onclick="document.querySelector('#weather').scrollIntoView()">查看天气 ↗</button></div>`;detail.classList.add('swap');renderVisitPanel();updateDays();$('#weather-card').innerHTML='<div class="card-top"><span>LIVE FORECAST</span><span>需更新</span></div><div class="weather-empty"><b>☁</b><span>点击“更新天气”<br>生成当前目的地的出行建议</span></div>';$('#weather-error').textContent='';updateRouteMap()}
     const renderBase=render;
     render=function(){renderBase();const p=plans[selected],label=document.createElement('small');label.className='elevation-label';label.textContent=`${p[12]} · 海拔约 ${(elevations[p[12]]??'—').toLocaleString('zh-CN')} m`;$('#detail').append(label)};
-    function renderDays(){$('#day-list').innerHTML=plans.map((x,i)=>{const s=dayStats[i]||{},local=x[3]===x[4],fly=s.m==='fly';const route=fly?`${x[3]} <i>✈</i> ${x[4]}`:local?(s.km>0?`${x[4]} <i>⟳</i> ${(x[16]||[])[0]||'环线'}`:`${x[4]} · 当地游`):`${x[3]} <i>→</i> ${x[4]}`;const tag=fly?`✈ 飞返 · ${fmtDur(s.min)}`:s.km>0?`≈${fmtKm(s.km)} km · ${fmtDur(s.min)}`:'游玩日 · 市内短驳';return`<button class="day" onclick="choose(${i})"><small>D${i+1} · ${x[0]}</small><strong>${route}</strong><em>${tag}</em></button>`}).join('')}
+    function renderDays(){$('#day-list').innerHTML=plans.map((x,i)=>{const s=dayStats[i]||{},local=x[3]===x[4],fly=s.m==='fly';const route=fly?`${x[3]} <i>✈</i> ${x[4]}`:local?(s.km>0?`${x[4]} <i>⟳</i> ${(x[16]||[])[0]||'环线'}`:`${x[4]} · 当地游`):`${x[3]} <i>→</i> ${x[4]}`;const tag=fly?`✈ 飞返 · ${fmtDur(s.min)}`:s.km>0?`≈${fmtKm(s.km)} km · ${fmtDur(s.min)}`:'游玩日 · 市内短驳';const ds=(x[8]||'').split('|').filter(Boolean);return`<button class="day" onclick="choose(${i})"><small>D${i+1} · ${x[0]}</small><strong>${route}</strong><em>${tag}</em>${ds.map(t=>`<span class="ds">${t}</span>`).join('')}</button>`}).join('')}
     function updateDays(){document.querySelectorAll('.day').forEach((b,i)=>b.classList.toggle('active',i===selected))}
     function choose(i){if(i===selected)return;selected=i;render();document.querySelector('.day.active')?.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'})}window.choose=choose;function selectRoutePlan(id){document.querySelectorAll('.plan-card').forEach(card=>card.classList.toggle('active',card.dataset.plan===id));activateRoutePlan(id);$('#plan-note').innerHTML=`<b>当前展示：${planInfo[id].name}。</b> ${planInfo[id].summary}；下方地图、每日路线、天气与食宿已同步切换。`;document.querySelector('#itinerary').scrollIntoView({behavior:'smooth',block:'start'})}window.selectRoutePlan=selectRoutePlan;activateRoutePlan('a');
     $('#show-key').onclick=()=>{const key=$('#key');key.type=key.type==='password'?'text':'password';$('#show-key').textContent=key.type==='password'?'显示':'隐藏'};
