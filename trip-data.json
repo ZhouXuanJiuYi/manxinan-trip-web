@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-16T04:56:23.193Z",
+  "updatedAt": "2026-07-16T05:06:41.495Z",
   "accommodations": [
     {
       "id": "1783846298855-a5802aac1c21e8",
@@ -169,6 +169,18 @@
       "address": "",
       "note": "住两晚 还没看",
       "deadline": ""
+    },
+    {
+      "id": "1784178399555-9eff21a5f17c58",
+      "city": "荔波",
+      "stayDate": "2026-07-30",
+      "name": "荔波民宿",
+      "price": 985,
+      "rooms": 1,
+      "status": "booked",
+      "address": "黔南荔波恒利·未来城5号楼3层2号",
+      "note": "复式民宿,环境很好.新装修过.",
+      "deadline": "2026-07-30T00:00"
     }
   ],
   "foods": [
