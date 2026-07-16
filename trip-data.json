@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-16T05:07:55.748Z",
+  "updatedAt": "2026-07-16T05:10:14.028Z",
   "accommodations": [
     {
       "id": "1783846298855-a5802aac1c21e8",
@@ -181,6 +181,18 @@
       "address": "黔南荔波恒利·未来城5号楼3层2号",
       "note": "复式民宿,环境很好.新装修过.",
       "deadline": "2026-07-30T00:00"
+    },
+    {
+      "id": "1784178612175-81971c2ef8d2d",
+      "city": "昆明",
+      "stayDate": "2026-08-05",
+      "name": "昆明民宿",
+      "price": 1,
+      "rooms": 1,
+      "status": "pending",
+      "address": "",
+      "note": "找找滇池旁边有没有别墅",
+      "deadline": ""
     }
   ],
   "foods": [
