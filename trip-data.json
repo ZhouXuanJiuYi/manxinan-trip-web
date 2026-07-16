@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-15T15:56:54.891Z",
+  "updatedAt": "2026-07-16T03:23:35.613Z",
   "accommodations": [
     {
       "id": "1783846298855-a5802aac1c21e8",
@@ -9,7 +9,7 @@
       "name": "一家民宿 白家巷23号楼",
       "price": 489,
       "rooms": 4,
-      "status": "pending",
+      "status": "booked",
       "address": "白家巷23号楼",
       "note": "方案一:除去司机之外住这个民宿 8个人 四张床",
       "deadline": "2026-07-24T14:00"
@@ -145,6 +145,18 @@
       "address": "兴义市市中心神奇西路12号",
       "note": "定了一个高级大床房给大大小妈,明天继续定",
       "deadline": "2026-08-02T12:00"
+    },
+    {
+      "id": "1784027882403-4794889266fc2",
+      "city": "宜昌",
+      "stayDate": "2026-07-26",
+      "name": "宜昌万达广场江景桔子水晶酒店",
+      "price": 1554,
+      "rooms": 1,
+      "status": "pending",
+      "address": "",
+      "note": "",
+      "deadline": ""
     }
   ],
   "foods": [
