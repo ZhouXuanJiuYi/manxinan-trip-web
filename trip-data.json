@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-16T05:10:14.028Z",
+  "updatedAt": "2026-07-16T08:30:38.587Z",
   "accommodations": [
     {
       "id": "1783846298855-a5802aac1c21e8",
@@ -179,7 +179,7 @@
       "rooms": 1,
       "status": "booked",
       "address": "黔南荔波恒利·未来城5号楼3层2号",
-      "note": "复式民宿,环境很好.新装修过.",
+      "note": "马路边是政府免费停车位，配有瓶装矿泉水，和热水壶，设基本都是配备齐的。复式民宿,环境很好.新装修过.",
       "deadline": "2026-07-30T00:00"
     },
     {
@@ -192,6 +192,18 @@
       "status": "pending",
       "address": "",
       "note": "找找滇池旁边有没有别墅",
+      "deadline": ""
+    },
+    {
+      "id": "1784178635574-05872a037f5248",
+      "city": "大理",
+      "stayDate": "2026-08-08",
+      "name": "大理看情况",
+      "price": 1,
+      "rooms": 1,
+      "status": "pending",
+      "address": "",
+      "note": "",
       "deadline": ""
     }
   ],
