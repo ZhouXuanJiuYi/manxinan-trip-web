@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-16T05:06:41.495Z",
+  "updatedAt": "2026-07-16T05:07:55.748Z",
   "accommodations": [
     {
       "id": "1783846298855-a5802aac1c21e8",
@@ -105,7 +105,7 @@
       "name": "汉庭荔波古镇酒店",
       "price": 1953,
       "rooms": 4,
-      "status": "booked",
+      "status": "pending",
       "address": "玉屏街道迎宾大道10号（荔波二幼学校十字路口）",
       "note": "这个地方仗着有个小景区,住宿价格很贵.",
       "deadline": "2026-07-29T20:00"
