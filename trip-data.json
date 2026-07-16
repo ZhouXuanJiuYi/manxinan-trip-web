@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-16T03:34:57.084Z",
+  "updatedAt": "2026-07-16T03:51:31.096Z",
   "accommodations": [
     {
       "id": "1783846298855-a5802aac1c21e8",
@@ -151,9 +151,9 @@
       "city": "宜昌",
       "stayDate": "2026-07-26",
       "name": "顶层复式民宿",
-      "price": 890,
+      "price": 784,
       "rooms": 1,
-      "status": "pending",
+      "status": "booked",
       "address": "宜昌伍家岗区弘洋东郡A区-4栋",
       "note": "",
       "deadline": "2026-07-26T18:00"
