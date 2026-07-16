@@ -228,6 +228,177 @@
       "status": "want",
       "address": "汉唐大道与常青路交叉口东北角",
       "note": "2200关门"
+    },
+    {
+      "id": "1784300000000-rec-xy-01",
+      "location": "襄阳",
+      "name": "南漳猪油饼",
+      "price": 0,
+      "status": "shortlist",
+      "address": "",
+      "note": "襄阳特色小吃"
+    },
+    {
+      "id": "1784300000000-rec-xy-02",
+      "location": "襄阳",
+      "name": "幸福路牛肉面馆",
+      "price": 0,
+      "status": "shortlist",
+      "address": "",
+      "note": "4.7★ · 早餐牛肉面"
+    },
+    {
+      "id": "1784300000000-rec-xy-03",
+      "location": "襄阳",
+      "name": "邓家牛腩",
+      "price": 0,
+      "status": "shortlist",
+      "address": "",
+      "note": "4.6★ · 晚餐襄阳菜"
+    },
+    {
+      "id": "1784300000000-rec-yc-01",
+      "location": "宜昌",
+      "name": "憨哥鱼庄",
+      "price": 0,
+      "status": "shortlist",
+      "address": "",
+      "note": "4.6★ · 清江鱼晚餐"
+    },
+    {
+      "id": "1784300000000-rec-es-01",
+      "location": "恩施",
+      "name": "醉晒楼土家手艺菜",
+      "price": 0,
+      "status": "shortlist",
+      "address": "",
+      "note": "4.7★ · 土家宴"
+    },
+    {
+      "id": "1784300000000-rec-xf-01",
+      "location": "咸丰",
+      "name": "奔吃楼·土锅土灶（火锅）",
+      "price": 0,
+      "status": "shortlist",
+      "address": "",
+      "note": "4.6★ · 腊猪蹄火锅"
+    },
+    {
+      "id": "1784300000000-rec-zy-01",
+      "location": "镇远",
+      "name": "老镇远味道",
+      "price": 0,
+      "status": "shortlist",
+      "address": "",
+      "note": "4.8★ · 酸汤鱼，配古城夜景"
+    },
+    {
+      "id": "1784300000000-rec-lb-01",
+      "location": "荔波",
+      "name": "姚厨",
+      "price": 0,
+      "status": "shortlist",
+      "address": "",
+      "note": "4.7★ · 豆花鱼"
+    },
+    {
+      "id": "1784300000000-rec-pt-01",
+      "location": "平塘",
+      "name": "贵州琼菜",
+      "price": 0,
+      "status": "shortlist",
+      "address": "",
+      "note": "4.6★ · 布依农家菜"
+    },
+    {
+      "id": "1784300000000-rec-gy-01",
+      "location": "贵阳",
+      "name": "贵厨酸汤牛肉",
+      "price": 0,
+      "status": "shortlist",
+      "address": "",
+      "note": "酸汤推荐 · 丝娃娃+酸汤鱼日"
+    },
+    {
+      "id": "1784300000000-rec-gy-02",
+      "location": "贵阳",
+      "name": "大胖刘烙锅",
+      "price": 0,
+      "status": "shortlist",
+      "address": "",
+      "note": "贵阳烙锅"
+    },
+    {
+      "id": "1784300000000-rec-xy2-01",
+      "location": "兴义",
+      "name": "黔臻·土黄牛",
+      "price": 0,
+      "status": "shortlist",
+      "address": "",
+      "note": "羊肉粉+万峰湖鱼日推荐"
+    },
+    {
+      "id": "1784300000000-rec-fxh-01",
+      "location": "抚仙湖",
+      "name": "抚仙湖·然皓农家乐",
+      "price": 0,
+      "status": "shortlist",
+      "address": "",
+      "note": "湖边铜锅鱼"
+    },
+    {
+      "id": "1784300000000-rec-km-01",
+      "location": "昆明",
+      "name": "菌彩·非遗野生菌火锅",
+      "price": 0,
+      "status": "shortlist",
+      "address": "",
+      "note": "米线+菌子火锅"
+    },
+    {
+      "id": "1784300000000-rec-dl-01",
+      "location": "大理",
+      "name": "一步之肴·精选大理白族特色餐厅",
+      "price": 0,
+      "status": "shortlist",
+      "address": "",
+      "note": "白族菜、砂锅鱼"
+    },
+    {
+      "id": "1784300000000-rec-tc-01",
+      "location": "腾冲",
+      "name": "朝花溪食·现炒云南菜",
+      "price": 0,
+      "status": "shortlist",
+      "address": "",
+      "note": "大救驾、土锅子、火瓢牛肉"
+    },
+    {
+      "id": "1784300000000-rec-pe-01",
+      "location": "普洱",
+      "name": "佳迎饭店·老普洱菜",
+      "price": 0,
+      "status": "shortlist",
+      "address": "",
+      "note": "茶宴、傣味"
+    },
+    {
+      "id": "1784300000000-rec-bn-01",
+      "location": "西双版纳",
+      "name": "傣十二·四季云南菜",
+      "price": 0,
+      "status": "shortlist",
+      "address": "",
+      "note": "傣味连续体验"
+    },
+    {
+      "id": "1784300000000-rec-bn-02",
+      "location": "西双版纳",
+      "name": "云傣神话·孔雀宴·傣味手抓饭",
+      "price": 0,
+      "status": "shortlist",
+      "address": "",
+      "note": "孔雀宴、傣味手抓饭"
     }
   ],
   "visits": [
