@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-16T16:33:54.619Z",
+  "updatedAt": "2026-07-17T03:59:30.860Z",
   "accommodations": [
     {
       "id": "1783846298855-a5802aac1c21e8",
@@ -229,6 +229,18 @@
       "address": "",
       "note": "",
       "deadline": ""
+    },
+    {
+      "id": "1784260767702-2dbef7773422a",
+      "city": "昆明",
+      "stayDate": "2026-08-06",
+      "name": "汉庭昆明南屏步行街王府井酒店",
+      "price": 1436,
+      "rooms": 4,
+      "status": "pending",
+      "address": "五华区南屏街55号（五一路地铁站B出口宝善街方向直行300米）",
+      "note": "还没定",
+      "deadline": "2026-08-05T23:00"
     }
   ],
   "foods": [
