@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-17T03:59:30.860Z",
+  "updatedAt": "2026-07-17T04:01:37.357Z",
   "accommodations": [
     {
       "id": "1783846298855-a5802aac1c21e8",
@@ -112,15 +112,15 @@
     },
     {
       "id": "1784030693207-80dc0a4a87205",
-      "city": "贵阳",
-      "stayDate": "2026-07-31",
-      "name": "酒店很多,先不看了",
-      "price": 1,
-      "rooms": 1,
-      "status": "pending",
-      "address": "",
+      "city": "昆明",
+      "stayDate": "2026-08-07",
+      "name": "昆明滇池花间驿·彩云麓",
+      "price": 1070,
+      "rooms": 2,
+      "status": "booked",
+      "address": "已经定了两间,还有两间没定.",
       "note": "住两晚",
-      "deadline": ""
+      "deadline": "2026-08-04T18:00"
     },
     {
       "id": "1784031158750-c10924641c63f8",
