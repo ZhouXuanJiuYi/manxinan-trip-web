@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-17T04:14:59.369Z",
+  "updatedAt": "2026-07-17T04:16:02.103Z",
   "accommodations": [
     {
       "id": "1783846298855-a5802aac1c21e8",
@@ -251,6 +251,18 @@
       "rooms": 1,
       "status": "pending",
       "address": "经济开发区五台路10号",
+      "note": "",
+      "deadline": ""
+    },
+    {
+      "id": "1784261758527-be50290dfd975",
+      "city": "大理",
+      "stayDate": "2026-08-08",
+      "name": "全季大理火车站酒店",
+      "price": 1564,
+      "rooms": 4,
+      "status": "pending",
+      "address": "下关经济技术开发区巍山路355号",
       "note": "",
       "deadline": ""
     }
