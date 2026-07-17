@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-17T09:34:42.082Z",
+  "updatedAt": "2026-07-17T10:04:25.903Z",
   "accommodations": [
     {
       "id": "1783846298855-a5802aac1c21e8",
@@ -210,13 +210,13 @@
       "id": "1784261148986-147df209eb2b48",
       "city": "普洱",
       "stayDate": "2026-08-12",
-      "name": "还没看 住一天",
-      "price": 1111,
-      "rooms": 1,
+      "name": "汉庭普洱茶马古镇酒店",
+      "price": 1262,
+      "rooms": 4,
       "status": "pending",
-      "address": "",
+      "address": "宁洱大道8号",
       "note": "",
-      "deadline": ""
+      "deadline": "2026-08-12T20:00"
     },
     {
       "id": "1784261465693-933e226f871698",
