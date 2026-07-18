@@ -790,6 +790,24 @@ svg.leaflet-image-layer.leaflet-interactive path {
     .trip-alert-action{margin-left:auto;flex-shrink:0;font-style:normal;font-size:12px;border:1px solid rgba(255,210,127,.4);padding:4px 10px;border-radius:2px;color:#ffd27f}
     .trip-alert-action-mobile{display:none}
     .trip-alert-detail{display:none}
+    .organizer-view-switch{display:inline-flex;gap:4px;margin:17px 0 13px;padding:4px;border:1px solid #d8cdbb;border-radius:999px;background:#f6eddf}
+    .organizer-view-switch button{min-height:36px;padding:0 15px;border:0;border-radius:999px;background:transparent;color:#687970;font-size:12px;font-weight:800}
+    .organizer-view-switch button.is-active{background:#214b40;color:#fff8ea;box-shadow:0 3px 10px rgba(24,62,52,.18)}
+    .organizer-city-index{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px;padding:17px;border:1px solid #d8cdbb;background:rgba(255,250,240,.58)}
+    .organizer-city-index[hidden]{display:none}
+    .organizer-city-button{display:flex;align-items:center;gap:7px;min-height:42px;padding:0 13px;border:1px solid #d8cdbb;border-radius:4px;background:#fffaf0;color:#31584d;font-size:14px;font-weight:850;transition:transform .18s,background .18s,color .18s}
+    .organizer-city-button:hover{transform:translateY(-2px);border-color:#c76749}
+    .organizer-city-button small{display:grid;place-items:center;min-width:22px;height:22px;padding:0 5px;border-radius:999px;background:#e4ecdf;color:#b85e46;font-size:10px}
+    .organizer-city-button.is-active{border-color:#214b40;background:#214b40;color:#fff8ea}
+    .organizer-city-button.is-active small{background:#efc16f;color:#214b40}
+    .city-focus-empty{padding:34px 20px;border:1px dashed #cbbda8;background:rgba(255,250,240,.45);color:#738076;text-align:center;font-size:13px;line-height:1.7}
+    .booking-list.is-city-focus .booking-city-group,.food-list-panel #food-list.is-city-focus .food-location{display:none}
+    .booking-list.is-city-focus .booking-city-group.is-focused{display:grid}
+    .food-list-panel #food-list.is-city-focus .food-location.is-focused{display:block}
+    .booking-card{position:relative}
+    .booking-card-top{padding-right:108px}
+    .stay-duration{position:absolute;z-index:3;right:15px;top:13px;color:#c45f48;font-family:var(--font-title);font-size:25px;font-weight:400;line-height:1;letter-spacing:.01em;white-space:nowrap;text-shadow:1px 1px 0 #f1d8bf}
+    .booking-card .stay-actions{padding-top:31px}
 
     @media(max-width:750px){
       html{scroll-padding-bottom:82px}
@@ -846,6 +864,13 @@ svg.leaflet-image-layer.leaflet-interactive path {
       .booking-city-cards{padding:2px 0 14px}
       .booking-city-group:not(.is-open) .booking-city-cards{display:none}
       .booking-city-group.has-multiple:not(.is-open) .booking-city-cards:before,.booking-city-group.has-multiple:not(.is-open) .booking-city-cards:after{display:none}
+      .organizer-view-switch{display:flex;width:max-content;max-width:100%;margin-top:13px}
+      .organizer-view-switch button{min-height:40px;padding:0 14px}
+      .organizer-city-index{gap:7px;padding:12px;margin-bottom:14px}
+      .organizer-city-button{min-height:40px;padding:0 11px;font-size:13px}
+      .booking-card-top{padding-right:82px}
+      .stay-duration{right:12px;top:13px;font-size:21px}
+      .booking-card .stay-actions{padding-top:4px}
     }
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.day-strip-hint:after{animation:none}.mobile-nav,.trip-alert-action,.booking-city-chevron{transition:none}}
   </style>
@@ -1049,6 +1074,53 @@ svg.leaflet-image-layer.leaflet-interactive path {
     function clearBookingForm(){bookingForm.reset();bookingRooms.value='1';bookingId.value='';$('#booking-form-title').textContent='记录酒店';bookingForm.querySelector('.save-booking').textContent='加入住宿清单';cancelBooking.hidden=true;$('#booking-entry').open=false}
     function setBookingHint(message,isError=false){bookingHint.textContent=message;bookingHint.style.color=isError?'#b34332':'#3e765e'}
     function textNode(tag,text,className){const node=document.createElement(tag);if(className)node.className=className;node.textContent=text;return node}
+    const organizerViewState={booking:{mode:'city',selected:''},food:{mode:'city',selected:''}};
+    function organizerElements(kind){
+      const booking=kind==='booking';
+      return{head:document.querySelector(booking?'.booking-list-head':'.food-list-head'),list:$(booking?'#booking-list':'#food-list'),groupSelector:booking?'.booking-city-group':'.food-location',citySelector:booking?'.booking-city-title':'.food-location-title',label:booking?'酒店':'美食'};
+    }
+    function ensureOrganizerChrome(kind){
+      const elements=organizerElements(kind);
+      if(!elements.head||!elements.list)return elements;
+      let switcher=document.querySelector(`[data-organizer-switch="${kind}"]`),index=document.querySelector(`[data-organizer-index="${kind}"]`);
+      if(!switcher){
+        switcher=document.createElement('div');switcher.className='organizer-view-switch';switcher.dataset.organizerSwitch=kind;switcher.setAttribute('role','group');switcher.setAttribute('aria-label',`${elements.label}展示方式`);
+        [['city','城市总览'],['list','完整清单']].forEach(([mode,label])=>{const button=document.createElement('button');button.type='button';button.dataset.mode=mode;button.textContent=label;button.onclick=()=>{organizerViewState[kind].mode=mode;if(mode==='city')organizerViewState[kind].selected='';applyOrganizerView(kind)};switcher.append(button)});
+        index=document.createElement('div');index.className='organizer-city-index';index.dataset.organizerIndex=kind;index.setAttribute('aria-label',`按城市查看${elements.label}`);
+        elements.head.insertAdjacentElement('afterend',switcher);switcher.insertAdjacentElement('afterend',index);
+      }
+      return{...elements,switcher,index};
+    }
+    function buildOrganizerCityIndex(kind){
+      const elements=ensureOrganizerChrome(kind);if(!elements.index)return;
+      elements.index.replaceChildren();
+      [...elements.list.querySelectorAll(elements.groupSelector)].forEach(group=>{
+        const heading=group.querySelector(elements.citySelector),city=heading?.dataset.city||'',count=group.querySelectorAll(kind==='booking'?'.booking-card':'.food-card').length;
+        if(!city)return;
+        const button=document.createElement('button');button.type='button';button.className='organizer-city-button';button.dataset.city=city;button.append(textNode('span',city),textNode('small',String(count)));button.setAttribute('aria-label',`${city}，${count}条${elements.label}记录`);
+        button.onclick=()=>{const state=organizerViewState[kind];state.selected=state.selected===city?'':city;applyOrganizerView(kind)};elements.index.append(button);
+      });
+    }
+    function applyOrganizerView(kind){
+      const elements=ensureOrganizerChrome(kind),state=organizerViewState[kind];if(!elements.list)return;
+      const groups=[...elements.list.querySelectorAll(elements.groupSelector)],available=new Set(groups.map(group=>group.querySelector(elements.citySelector)?.dataset.city).filter(Boolean));
+      if(state.selected&&!available.has(state.selected))state.selected='';
+      const focused=state.mode==='city';elements.list.classList.toggle('is-city-focus',focused);elements.index.hidden=!focused;
+      elements.switcher.querySelectorAll('button').forEach(button=>{const active=button.dataset.mode===state.mode;button.classList.toggle('is-active',active);button.setAttribute('aria-pressed',String(active))});
+      elements.index.querySelectorAll('.organizer-city-button').forEach(button=>{const active=button.dataset.city===state.selected;button.classList.toggle('is-active',active);button.setAttribute('aria-pressed',String(active))});
+      groups.forEach(group=>{const city=group.querySelector(elements.citySelector)?.dataset.city||'',active=focused&&city===state.selected;group.classList.toggle('is-focused',active);if(kind==='booking'&&active){group.classList.add('is-open');const heading=group.querySelector('.booking-city-title');if(heading)heading.setAttribute('aria-expanded','true')}});
+      elements.list.querySelector('.city-focus-empty')?.remove();
+      if(focused&&!state.selected){const empty=document.createElement('div');empty.className='city-focus-empty';empty.textContent=`先选择一个城市，${elements.label}详情才会显示在这里。`;elements.list.prepend(empty)}
+      if(kind==='booking')$('#booking-order').textContent=focused?(state.selected?`正在查看：${state.selected}`:'所有酒店已折叠'):'按城市、入住日期排列';
+    }
+    function stayNightsForCity(city){
+      let run=0,max=0;plans.forEach(day=>{if(day[4]===city){run+=1;max=Math.max(max,run)}else run=0});return Math.max(1,max);
+    }
+    function stayDurationLabel(city){const nights=stayNightsForCity(city),numbers=['零','一','两','三','四','五','六','七','八','九'];return nights===1?'住一晚':`连住${numbers[nights]||nights}晚`}
+    function enhanceBookingView(){
+      document.querySelectorAll('.booking-city-group').forEach(group=>{const city=group.querySelector('.booking-city-title')?.dataset.city||'';group.querySelectorAll('.booking-card').forEach(card=>{const badge=textNode('strong',stayDurationLabel(city),'stay-duration');badge.setAttribute('aria-label',`${city}${stayDurationLabel(city)}`);card.append(badge)})});
+      buildOrganizerCityIndex('booking');applyOrganizerView('booking');
+    }
     // 行前待办横幅：当前方案下没有任何记录的夜晚 + 待决定条数 + 最近的取消/预订截止
     function renderTripAlert(){const el=$('#trip-alert');if(!el)return;const records=getBookings();const covered=new Set(records.map(r=>r.stayDate).filter(Boolean));const missing=[];const passedDay=dayIndexToday();for(let i=0;i<plans.length;i++){const p=plans[i];if(p[4]==='太原'||i<passedDay)continue;if(!covered.has(tripDateISO(i))){const d=new Date(2026,6,25+i);missing.push(`D${i+1} ${p[4]}（${d.getMonth()+1}.${d.getDate()}）`)}}const pending=records.filter(r=>r.status!=='booked');const now=Date.now();const nextDeadline=records.filter(r=>r.status==='booked'&&r.deadline).map(r=>({r,t:new Date(r.deadline).getTime()})).filter(x=>!Number.isNaN(x.t)&&x.t>now).sort((a,b)=>a.t-b.t)[0];const parts=[];if(missing.length)parts.push(`未落实 ${missing.length} 晚：${missing.slice(0,4).join('、')}${missing.length>4?' 等':''}`);if(pending.length)parts.push(`${pending.length} 条住宿待决定`);if(nextDeadline){const hours=Math.round((nextDeadline.t-now)/36e5);parts.push(`最近免费取消截止：${nextDeadline.r.city} ${readableDate(nextDeadline.r.deadline)}${hours<=48?`（约 ${hours} 小时后）`:''}`)}if(!parts.length){el.hidden=true;return}el.hidden=false;el.innerHTML=`<b>行前待办</b><span>${parts.join('　·　')}</span><i>去处理 ↓</i>`;el.onclick=()=>document.querySelector('#accommodations').scrollIntoView({behavior:'smooth',block:'start'});el.onkeydown=e=>{if(e.key==='Enter'||e.key===' ')el.click()}}
     function renderBookings(){const cityRank=city=>{const rank=stayCities.indexOf(city);return rank<0?999:rank};const records=getBookings().sort((a,b)=>cityRank(a.city)-cityRank(b.city)||(a.stayDate||'9999').localeCompare(b.stayDate||'9999'));const list=$('#booking-list');const booked=records.filter(record=>record.status==='booked').length;const bookedCost=records.reduce((sum,record)=>sum+(record.status==='booked'?Number(record.price)||0:0),0);const pendingCost=records.reduce((sum,record)=>sum+(record.status!=='booked'?Number(record.price)||0:0),0);$('#booking-total').textContent=String(records.length);$('#booking-booked').textContent=String(booked);$('#booking-cost').textContent=money(bookedCost);const pendingCostEl=$('#booking-pending-cost');if(pendingCostEl)pendingCostEl.textContent=money(pendingCost);renderTripAlert();$('#booking-order').textContent=records.length?'按城市、入住日期排列':'从左侧开始记录';list.replaceChildren();if(!records.length){const empty=document.createElement('div');empty.className='booking-empty';empty.innerHTML='<b>⌂</b><h4>还没有酒店记录</h4><p>点击左侧“添加 / 修改酒店”录入第一晚。</p>';list.append(empty);return}const grouped=new Map();records.forEach(record=>{const city=record.city||'未填写城市';const group=grouped.get(city)||[];group.push(record);grouped.set(city,group)});let index=0;grouped.forEach((items,city)=>{const hasBooked=items.some(record=>record.status==='booked');const section=document.createElement('section');section.className=`booking-city-group${items.length>1?' has-multiple':''}${hasBooked?' is-open':''}`;const heading=document.createElement('button');heading.type='button';heading.className='booking-city-title';heading.dataset.city=city;heading.title=`展开 / 收起 ${city} 的酒店`;heading.setAttribute('aria-expanded',String(hasBooked));heading.onclick=()=>{const expanded=section.classList.toggle('is-open');heading.setAttribute('aria-expanded',String(expanded))};heading.append(textNode('span',city));section.append(heading);const cards=document.createElement('div');cards.className='booking-city-cards';items.forEach(record=>{index+=1;const card=document.createElement('article');card.className='booking-card';card.append(textNode('div',String(index).padStart(2,'0'),'booking-card-index'));const main=document.createElement('div');const top=document.createElement('div');top.className='booking-card-top';const heading=document.createElement('div');heading.append(textNode('p',`入住：${readableDate(record.stayDate)}`),textNode('h4',record.name));top.append(heading,textNode('span',record.status==='booked'?'已预订':'待决定',`booking-status${record.status==='booked'?' is-booked':''}`));main.append(top);const meta=document.createElement('div');meta.className='booking-meta';meta.append(textNode('span',`${money(Number(record.price)||0)} / 晚`),textNode('span',`${Math.max(1,Number(record.rooms)||1)} 间`),textNode('span',record.address||'未填写','location'));if(record.deadline){const deadlineTime=new Date(record.deadline).getTime();const urgent=!Number.isNaN(deadlineTime)&&deadlineTime-Date.now()<48*36e5;meta.append(textNode('span',readableDate(record.deadline),`deadline${urgent?' deadline-urgent':''}`))}main.append(meta);if(record.note)main.append(textNode('p',record.note,'booking-note'));if(record.address){const copy=document.createElement('button');copy.type='button';copy.className='copy-address';copy.textContent='复制酒店地址';copy.onclick=()=>copyAddress(record.address,copy);main.append(copy)}card.append(main);const actions=document.createElement('div');actions.className='stay-actions';const edit=document.createElement('button');edit.type='button';edit.textContent='编辑';edit.onclick=()=>editBooking(record.id);const remove=document.createElement('button');remove.type='button';remove.textContent='删除';remove.onclick=()=>removeBooking(record.id,record.name);actions.append(edit,remove);card.append(actions);cards.append(card)});section.append(cards);list.append(section)})}
@@ -1113,7 +1185,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
       });
     }
     const renderBookingsBase=renderBookings;
-    renderBookings=function(){renderBookingsBase();enhanceBookingGroups()};
+    renderBookings=function(){renderBookingsBase();enhanceBookingGroups();enhanceBookingView()};
 
     function editBooking(id){const record=getBookings().find(item=>item.id===id);if(!record)return;bookingId.value=record.id;bookingDate.value=record.stayDate||'';bookingCity.value=record.city||'';bookingName.value=record.name||'';bookingPrice.value=record.price??'';bookingRooms.value=record.rooms||1;bookingStatus.value=record.status==='booked'?'booked':'pending';bookingAddress.value=record.address||'';bookingNote.value=record.note||'';bookingDeadline.value=record.deadline||'';$('#booking-form-title').textContent='修改酒店记录';bookingForm.querySelector('.save-booking').textContent='保存修改';cancelBooking.hidden=false;$('#booking-entry').open=true;bookingForm.scrollIntoView({behavior:'smooth',block:'start'})}
     async function copyAddress(address,button){try{if(navigator.clipboard?.writeText)await navigator.clipboard.writeText(address);else{const helper=document.createElement('textarea');helper.value=address;helper.style.position='fixed';helper.style.opacity='0';document.body.append(helper);helper.select();if(!document.execCommand('copy'))throw Error('复制失败');helper.remove()}const original=button.textContent;button.textContent='已复制 ✓';setTimeout(()=>button.textContent=original,1600)}catch{button.textContent='复制失败';setTimeout(()=>button.textContent='复制酒店地址',1600)}}
@@ -1128,11 +1200,15 @@ svg.leaflet-image-layer.leaflet-interactive path {
     function setFoodHint(message,isError=false){foodHint.textContent=message;foodHint.style.color=isError?'#b34332':'#3e765e'}
     function clearFoodForm(){foodForm.reset();foodId.value='';$('#food-form-title').textContent='记录餐厅';foodForm.querySelector('.save-food').textContent='加入美食备选';cancelFood.hidden=true;$('#food-entry').open=false}
     function renderFoods(){const records=getFoods().sort((a,b)=>foodLocations.indexOf(a.location)-foodLocations.indexOf(b.location)||a.name.localeCompare(b.name,'zh-CN')),list=$('#food-list');$('#food-count').textContent=records.length?`已登记 ${records.length} 个地点`:'还没有登记';list.replaceChildren();if(!records.length){const empty=document.createElement('div');empty.className='food-empty';empty.innerHTML='<b>⌂</b><h4>还没有美食备选</h4><p>先从下一晚的落脚地点开始记一间店。</p>';list.append(empty);return}const grouped=new Map();records.forEach(record=>{const group=grouped.get(record.location)||[];group.push(record);grouped.set(record.location,group)});grouped.forEach((items,location)=>{const section=document.createElement('section');section.className='food-location';const heading=document.createElement('div');heading.className='food-location-title';heading.dataset.city=location;heading.append(textNode('b',String(items.length)),textNode('span',location));section.append(heading);const cards=document.createElement('div');cards.className='food-cards';items.forEach(record=>{const card=document.createElement('article');card.className='food-card';const main=document.createElement('div');const top=document.createElement('div');top.className='food-card-top';const title=document.createElement('div');title.append(textNode('h4',record.name),textNode('p',record.status==='planned'?'已安排':'候选美食'));top.append(title,textNode('span',record.status==='planned'?'已安排':record.status==='shortlist'?'候选':'想去',`food-status${record.status==='planned'?' is-planned':''}`));main.append(top);const meta=document.createElement('div');meta.className='food-meta';if(record.price)meta.append(textNode('span',`${money(Number(record.price))} / 人均`));if(record.address)meta.append(textNode('span',record.address,'address'));if(record.note)meta.append(textNode('span',record.note));main.append(meta);card.append(main);const actions=document.createElement('div');actions.className='food-actions';const edit=document.createElement('button');edit.type='button';edit.textContent='编辑';edit.onclick=()=>editFood(record.id);const remove=document.createElement('button');remove.type='button';remove.textContent='删除';remove.onclick=()=>removeFood(record.id,record.name);actions.append(edit,remove);card.append(actions);cards.append(card)});section.append(cards);list.append(section)})}
+    const renderFoodsBase=renderFoods;
+    renderFoods=function(){renderFoodsBase();buildOrganizerCityIndex('food');applyOrganizerView('food')};
     function editFood(id){const record=getFoods().find(item=>item.id===id);if(!record)return;foodId.value=record.id;foodLocation.value=record.location||'';foodName.value=record.name||'';foodPrice.value=record.price??'';foodStatus.value=['want','shortlist','planned'].includes(record.status)?record.status:'want';foodAddress.value=record.address||'';foodNote.value=record.note||'';$('#food-form-title').textContent='修改美食备选';foodForm.querySelector('.save-food').textContent='保存修改';cancelFood.hidden=false;$('#food-entry').open=true;foodForm.scrollIntoView({behavior:'smooth',block:'start'})}
     function removeFood(id,name){if(!confirm(`删除“${name}”这条美食备选吗？`))return;saveFoods(getFoods().filter(item=>item.id!==id));renderFoods();setFoodHint('美食备选已删除。')}
     foodForm.addEventListener('submit',event=>{event.preventDefault();const location=foodLocation.value,name=foodName.value.trim();if(!location||!name)return;const record={id:foodId.value||`${Date.now()}-${Math.random().toString(16).slice(2)}`,location,name,price:Math.max(0,Math.round(Number(foodPrice.value)||0)),status:foodStatus.value,address:foodAddress.value.trim(),note:foodNote.value.trim()};try{const records=getFoods(),index=records.findIndex(item=>item.id===record.id);if(index>=0)records[index]=record;else records.push(record);saveFoods(records);renderFoods();setFoodHint(index>=0?'美食备选已更新。':'美食备选已加入。');clearFoodForm()}catch{setFoodHint('保存失败，请检查浏览器的本地存储权限。',true)}});
     cancelFood.addEventListener('click',()=>{clearFoodForm();setFoodHint('已取消修改。')});renderFoods();
     const mustEatSummary=document.querySelector('.must-eat-top b');if(mustEatSummary)mustEatSummary.textContent='';
+    const selectRoutePlanBase=selectRoutePlan;
+    selectRoutePlan=function(id){selectRoutePlanBase(id);renderBookings()};window.selectRoutePlan=selectRoutePlan;
     function setupMobileNavigation(){
       const nav=document.querySelector('.mobile-nav'),more=$('#mobile-more');
       if(!nav)return;
