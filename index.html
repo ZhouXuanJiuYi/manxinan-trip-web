@@ -775,8 +775,9 @@ svg.leaflet-image-layer.leaflet-interactive path {
 
     /* 2026-07 mobile experience pass: stable display font, focused navigation and compact organizers */
     @font-face{font-family:"Manxinan Brush";src:url("fonts/LongCang-TripSubset.woff") format("woff");font-display:swap;font-style:normal;font-weight:400}
-    :root{--font-sans:"PingFang SC","Noto Sans CJK SC","Source Han Sans SC","Microsoft YaHei",system-ui,-apple-system,sans-serif;--font-serif:"Songti SC","Noto Serif SC","Source Han Serif SC",STSong,serif;--font-brush:"Manxinan Brush",STKaiti,KaiTi,serif}
-    body{font-family:var(--font-sans)}button,input,select,textarea{font-family:inherit}.hero h1,.brand i{font-family:var(--font-brush)}h2 em{font-family:var(--font-serif)}.booking-city-title span,.food-location-title:after{font-family:var(--font-brush)}
+    @font-face{font-family:"Manxinan Title";src:url("fonts/Manxinan-TitleSubset.woff") format("woff");font-display:swap;font-style:normal;font-weight:400}
+    :root{--font-sans:"PingFang SC","Noto Sans CJK SC","Source Han Sans SC","Microsoft YaHei",system-ui,-apple-system,sans-serif;--font-serif:"Songti SC","Noto Serif SC","Source Han Serif SC",STSong,serif;--font-brush:"Manxinan Brush",STKaiti,KaiTi,serif;--font-title:"Manxinan Title","PingFang SC","Microsoft YaHei",sans-serif}
+    body{font-family:var(--font-sans)}button,input,select,textarea{font-family:inherit}.hero h1,.brand i{font-family:var(--font-brush)}h2,h2 em{font-family:var(--font-title);font-style:normal;font-weight:400;letter-spacing:-.02em}.booking-city-title span,.food-location-title:after{font-family:var(--font-brush)}
     .mobile-nav{display:none}
     .day-strip-head{display:none}
     .booking-city-summary,.booking-city-chevron{display:none}
@@ -823,7 +824,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
       .trip-alert-detail p{margin:10px 0}
       .trip-alert-detail a{display:inline-flex;align-items:center;min-height:40px;padding:0 13px;border:1px solid rgba(255,210,127,.5);border-radius:6px;color:#ffd27f;text-decoration:none;font-weight:800}
 
-      .intro h2,h2{letter-spacing:-.035em}
+      .intro h2,h2{letter-spacing:-.015em}
       .day-strip-head{display:flex;align-items:center;justify-content:space-between;margin:28px 0 10px;color:#c4d5c9;font-size:11px}
       .day-strip-progress{color:#efc16f;font:700 14px Georgia,serif;letter-spacing:.03em}
       .day-strip-hint{display:flex;align-items:center;gap:6px}
