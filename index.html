@@ -1113,12 +1113,21 @@ svg.leaflet-image-layer.leaflet-interactive path {
       if(focused&&!state.selected){const empty=document.createElement('div');empty.className='city-focus-empty';empty.textContent=`先选择一个城市，${elements.label}详情才会显示在这里。`;elements.list.prepend(empty)}
       if(kind==='booking')$('#booking-order').textContent=focused?(state.selected?`正在查看：${state.selected}`:'所有酒店已折叠'):'按城市、入住日期排列';
     }
-    function stayNightsForCity(city){
-      let run=0,max=0;plans.forEach(day=>{if(day[4]===city){run+=1;max=Math.max(max,run)}else run=0});return Math.max(1,max);
+    function explicitStayNights(note=''){
+      const match=String(note).match(/(?:连住|住)\s*([一二两三四五六七八九\d]+)\s*(?:晚|天)/);if(!match)return 0;
+      const values={一:1,二:2,两:2,三:3,四:4,五:5,六:6,七:7,八:8,九:9};return values[match[1]]||Number(match[1])||0;
     }
-    function stayDurationLabel(city){const nights=stayNightsForCity(city),numbers=['零','一','两','三','四','五','六','七','八','九'];return nights===1?'住一晚':`连住${numbers[nights]||nights}晚`}
+    function stayNightsForRecord(record,cityRecords){
+      const sameHotel=cityRecords.filter(item=>item.city===record.city&&String(item.name||'').trim()===String(record.name||'').trim());
+      const dates=[...new Set(sameHotel.map(item=>item.stayDate).filter(Boolean))].sort(),target=dates.indexOf(record.stayDate);let consecutive=1;
+      if(target>=0){let start=target,end=target;while(start>0&&(new Date(`${dates[start]}T12:00:00`)-new Date(`${dates[start-1]}T12:00:00`))===86400000)start-=1;while(end<dates.length-1&&(new Date(`${dates[end+1]}T12:00:00`)-new Date(`${dates[end]}T12:00:00`))===86400000)end+=1;consecutive=end-start+1}
+      return Math.max(1,consecutive,...sameHotel.map(item=>explicitStayNights(item.note)));
+    }
+    function stayDurationLabel(record,cityRecords){const nights=stayNightsForRecord(record,cityRecords),numbers=['零','一','两','三','四','五','六','七','八','九'];return nights===1?'住一晚':`连住${numbers[nights]||nights}晚`}
     function enhanceBookingView(){
-      document.querySelectorAll('.booking-city-group').forEach(group=>{const city=group.querySelector('.booking-city-title')?.dataset.city||'';group.querySelectorAll('.booking-card').forEach(card=>{const badge=textNode('strong',stayDurationLabel(city),'stay-duration');badge.setAttribute('aria-label',`${city}${stayDurationLabel(city)}`);card.append(badge)})});
+      const cityRank=city=>{const rank=stayCities.indexOf(city);return rank<0?999:rank},records=getBookings().sort((a,b)=>cityRank(a.city)-cityRank(b.city)||(a.stayDate||'9999').localeCompare(b.stayDate||'9999')),byCity=new Map();
+      records.forEach(record=>{const city=record.city||'未填写城市',items=byCity.get(city)||[];items.push(record);byCity.set(city,items)});
+      document.querySelectorAll('.booking-city-group').forEach(group=>{const city=group.querySelector('.booking-city-title')?.dataset.city||'',items=byCity.get(city)||[];group.querySelectorAll('.booking-card').forEach((card,index)=>{const record=items[index];if(!record)return;const label=stayDurationLabel(record,items),badge=textNode('strong',label,'stay-duration');badge.setAttribute('aria-label',`${city}${record.name}${label}`);card.append(badge)})});
       buildOrganizerCityIndex('booking');applyOrganizerView('booking');
     }
     // 行前待办横幅：当前方案下没有任何记录的夜晚 + 待决定条数 + 最近的取消/预订截止
