@@ -972,13 +972,13 @@ svg.leaflet-image-layer.leaflet-interactive path {
         const day=plans[index],flight=day[7]==='飞机',returning=!plans.some(p=>p[7]==='飞机')&&index>=Math.ceil(gcjTracks.length*.72),color=flight?'#7a5bd6':returning?'#477fab':'#dc714e',dash=flight?'13 9':returning?'8 7':null;
         L.polyline(track,{color:'#fff8ea',weight:flight?8:7,opacity:.8,lineJoin:'round',lineCap:'round',interactive:false}).addTo(overviewLayer);
         L.polyline(track,{color,weight:flight?4.6:3.6,opacity:.96,lineJoin:'round',lineCap:'round',interactive:false,dashArray:dash}).addTo(overviewLayer);
-        if(day[4]!=='太原')stops.set(day[4],{point:track.at(-1),day:index+1,color});
+        if(day[4]!=='太原')stops.set(day[4],{point:track.at(-1),color});
         all.push(...track);
       });
       [...stops.entries()].forEach(([city,stop],index)=>{
         const direction=index%3===0?'top':index%3===1?'right':'bottom';
         L.circleMarker(stop.point,{radius:5,color:'#fff8ea',weight:2,fillColor:stop.color,fillOpacity:1})
-          .bindTooltip(`D${stop.day} · ${city}`,{permanent:true,className:'overview-stop-label',direction,offset:direction==='top'?[0,-7]:direction==='bottom'?[0,7]:[7,0]})
+          .bindTooltip(city,{permanent:true,className:'overview-stop-label',direction,offset:direction==='top'?[0,-7]:direction==='bottom'?[0,7]:[7,0]})
           .addTo(overviewLayer);
       });
       overviewMap.fitBounds(L.latLngBounds(all),{padding:[46,46],maxZoom:7});
