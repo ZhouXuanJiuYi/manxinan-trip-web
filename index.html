@@ -1291,7 +1291,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
     const TRIP_CHART_FLEET_SIZE=2,TRIP_CHART_TOLL_RATE=.45,TRIP_CHART_FUEL_L_PER_100KM=9,TRIP_CHART_FUEL_PRICE=7.8;
     const tripClimateByCity={太原:[28,62],襄阳:[30,77],宜昌:[30,80],恩施:[27,84],咸丰:[26,85],镇远:[29,82],千户苗寨:[26,86],荔波:[29,84],贵阳:[24,81],安顺:[24,82],兴义:[25,80],抚仙湖:[23,76],昆明:[23,74],大理:[23,72],腾冲:[23,83],临沧:[25,78],西双版纳:[29,84],攀枝花:[28,68],昭通:[23,78],巴中:[29,82],渭南:[31,72]};
     const tripMetricConfig={
-      stay:{label:'住宿费用',unit:'元',summary:'全程已记录住宿',note:'取自住宿清单；同一天有多条住宿时自动合计，尚未登记的日期显示为 0。'},
+      stay:{label:'住宿费用',unit:'元',summary:'全程已记录住宿',note:'按入住日期显示当天价格；昆明等已逐日记录的住宿不会跨天累计。同一天确有不同住宿时仍按家庭当日总额合计。'},
       distance:{label:'行驶公里',unit:'km',summary:'全程自驾里程',note:'跟随当前路线方案；飞机里程不计入，市内短驳尚未计入路线数据。'},
       toll:{label:'预计过路费',unit:'元',summary:'两辆车预计合计',note:'仅对自驾转场按两辆车、约 ¥0.45 / 车公里估算；当地游和飞机日按 0 计算。'},
       fuel:{label:'预计加油费',unit:'元',summary:'两辆车预计合计',note:'按两辆车、每车百公里 9 L、油价 ¥7.8 / L 估算；不含尚未录入的市内短驳。'},
@@ -1299,9 +1299,20 @@ svg.leaflet-image-layer.leaflet-interactive path {
       humidity:{label:'预计湿度',unit:'%',summary:'全程日均规划值',note:'使用各目的地盛夏行前规划值，不是实时预报；山区和雨季天气会有明显波动。'}
     };
     let tripChartMetric='stay',tripChartSelectedDay=0,tripChartPositions=[],tripChartFrame=0;
+    // 逐日记录优先于浏览器中遗留的连住记录，避免同一晚重复计价。
+    function tripStayPricesByDate(records){
+      const unique=[...new Map(records.filter(record=>record.stayDate).map(record=>{const nights=Math.max(1,explicitStayNights(record.note)),signature=[record.city,record.stayDate,String(record.name||'').trim(),Number(record.price)||0,Number(record.rooms)||1,nights].join('|');return[signature,{...record,nights}]})).values()],prices=new Map();
+      const dateKey=(start,offset)=>{const date=new Date(`${start}T12:00:00`);date.setDate(date.getDate()+offset);return`${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`};
+      unique.forEach(record=>{
+        const covered=Array.from({length:record.nights},(_,offset)=>dateKey(record.stayDate,offset));
+        const hasDailyReplacement=record.nights>1&&covered.every(date=>unique.some(other=>other!==record&&other.city===record.city&&other.stayDate===date&&other.nights===1));
+        if(hasDailyReplacement)return;
+        covered.forEach((date,offset)=>{const hasOwnDayRecord=offset>0&&unique.some(other=>other!==record&&other.city===record.city&&other.stayDate===date);if(hasOwnDayRecord)return;prices.set(date,(prices.get(date)||0)+(Number(record.price)||0))});
+      });
+      return prices;
+    }
     function tripChartValues(metric){
-      const stayByDate=new Map();
-      getBookings().forEach(record=>{if(!record.stayDate)return;const nights=Math.max(1,explicitStayNights(record.note));for(let offset=0;offset<nights;offset++){const date=new Date(`${record.stayDate}T12:00:00`);date.setDate(date.getDate()+offset);const key=`${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`;stayByDate.set(key,(stayByDate.get(key)||0)+(Number(record.price)||0))}});
+      const stayByDate=tripStayPricesByDate(getBookings());
       return plans.map((plan,index)=>{
         const stat=dayStats[index]||{},roadKm=stat.m==='fly'?0:Math.round(Number(stat.km)||0),climate=tripClimateByCity[plan[12]]||[26,78];
         if(metric==='stay')return Math.round(stayByDate.get(tripDateISO(index))||0);
