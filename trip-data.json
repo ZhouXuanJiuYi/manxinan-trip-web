@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-19T16:54:15.729Z",
+  "updatedAt": "2026-07-19T16:56:46Z",
   "accommodations": [
     {
       "id": "1783846298855-a5802aac1c21e8",
@@ -135,18 +135,6 @@
       "deadline": "2026-08-04T23:00"
     },
     {
-      "id": "1784479615000-tengchong-first-night",
-      "city": "腾冲",
-      "stayDate": "2026-08-10",
-      "name": "腾冲首晚酒店（待定）",
-      "price": 0,
-      "rooms": 4,
-      "status": "pending",
-      "address": "",
-      "note": "腾冲两晚中的第一晚，酒店待定。住一晚",
-      "deadline": ""
-    },
-    {
       "id": "1784178635574-05872a037f5248",
       "city": "腾冲",
       "stayDate": "2026-08-10",
@@ -155,7 +143,7 @@
       "rooms": 4,
       "status": "booked",
       "address": "清水乡腾冲热海景区内商业街A区2层、B区1层-2层",
-      "note": "酒店在景区内,联系景区买票.住一晚",
+      "note": "酒店在景区内,联系景区买票.连住两晚",
       "deadline": "2026-08-07T18:00"
     },
     {
