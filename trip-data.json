@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-19T12:16:59.464Z",
+  "updatedAt": "2026-07-19T16:46:43Z",
   "accommodations": [
     {
       "id": "1783846298855-a5802aac1c21e8",
@@ -135,6 +135,18 @@
       "deadline": "2026-08-04T23:00"
     },
     {
+      "id": "1784479615000-tengchong-first-night",
+      "city": "腾冲",
+      "stayDate": "2026-08-10",
+      "name": "腾冲首晚酒店（待定）",
+      "price": 0,
+      "rooms": 4,
+      "status": "pending",
+      "address": "",
+      "note": "腾冲两晚中的第一晚，酒店待定。住一晚",
+      "deadline": ""
+    },
+    {
       "id": "1784178635574-05872a037f5248",
       "city": "腾冲",
       "stayDate": "2026-08-11",
@@ -191,7 +203,7 @@
       "rooms": 1,
       "status": "pending",
       "address": "经济开发区巍山路267号整栋",
-      "note": "备选1",
+      "note": "备选1。住两晚",
       "deadline": "2026-08-07T23:00"
     },
     {
@@ -227,7 +239,7 @@
       "rooms": 4,
       "status": "pending",
       "address": "下关经济技术开发区巍山路355号",
-      "note": "",
+      "note": "住两晚",
       "deadline": ""
     },
     {
@@ -251,7 +263,7 @@
       "rooms": 4,
       "status": "booked",
       "address": "中国大陆/云南/大理州/大理市机场路大理公馆二期蝶翠锦亭18栋",
-      "note": "还没完全考虑好 先定了 再考虑",
+      "note": "还没完全考虑好 先定了 再考虑。住两晚",
       "deadline": "2026-08-07T18:00"
     }
   ],
