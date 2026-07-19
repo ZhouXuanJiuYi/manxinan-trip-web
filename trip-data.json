@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-19T12:10:27.420Z",
+  "updatedAt": "2026-07-19T12:16:59.464Z",
   "accommodations": [
     {
       "id": "1783846298855-a5802aac1c21e8",
@@ -237,7 +237,7 @@
       "name": "桔子西双版纳泼水广场酒店",
       "price": 1334,
       "rooms": 4,
-      "status": "pending",
+      "status": "booked",
       "address": "勐海路53号1层-7层(景洪市泼水广场沃尔玛对面)",
       "note": "住两晚",
       "deadline": "2026-08-12T23:00"
