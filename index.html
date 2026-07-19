@@ -893,6 +893,12 @@ svg.leaflet-image-layer.leaflet-interactive path {
     .trip-metric-summary span{display:block;color:#7a877e;font-size:10px;font-weight:800;letter-spacing:.14em}
     .trip-metric-summary b{display:block;margin-top:5px;color:#c95f46;font:31px/1 Georgia,serif;letter-spacing:-.03em}
     .trip-chart-note{margin:13px 0 0;color:#6d7d73;font-size:12px;line-height:1.6}
+    .trip-stay-legend{display:flex;flex-wrap:wrap;gap:10px 18px;margin:12px 0 0;color:#4f655b;font-size:11px;font-weight:800}
+    .trip-stay-legend[hidden]{display:none}
+    .trip-stay-legend span{display:inline-flex;align-items:center;gap:7px}
+    .trip-stay-legend i{width:11px;height:11px;border-radius:50%;box-shadow:0 0 0 2px #fff9ec,0 0 0 3px currentColor}
+    .trip-stay-legend .is-hotel{color:#cf4f45;background:#cf4f45}
+    .trip-stay-legend .is-homestay{color:#357db7;background:#357db7}
     .trip-chart-shell{position:relative;margin-top:8px;overflow:visible}
     .trip-chart-canvas{display:block;width:100%;height:auto;overflow:visible;touch-action:pan-x}
     .trip-chart-canvas .chart-grid{stroke:#ded5c6;stroke-width:1}
@@ -903,11 +909,21 @@ svg.leaflet-image-layer.leaflet-interactive path {
     .trip-chart-canvas .chart-stem{stroke:#d96649;stroke-width:1;stroke-opacity:.2}
     .trip-chart-canvas .chart-point{fill:#fff9ec;stroke:#d96649;stroke-width:3;cursor:pointer;transition:r .18s,fill .18s}
     .trip-chart-canvas .chart-hit{fill:transparent;cursor:pointer}
-    .trip-chart-canvas .chart-point.is-selected{r:7;fill:#214b40;stroke:#fff9ec;filter:drop-shadow(0 2px 3px rgba(22,62,54,.28))}
+    .trip-chart-canvas.is-stay-metric .chart-area{fill:#61786e;fill-opacity:.09}
+    .trip-chart-canvas.is-stay-metric .chart-line{stroke:#6f776f;stroke-width:3}
+    .trip-chart-canvas .chart-stem.stay-hotel{stroke:#cf4f45;stroke-opacity:.35}
+    .trip-chart-canvas .chart-stem.stay-homestay{stroke:#357db7;stroke-opacity:.35}
+    .trip-chart-canvas .chart-stem.stay-mixed{stroke:#745d86;stroke-opacity:.35}
+    .trip-chart-canvas .chart-point.stay-hotel{fill:#cf4f45;stroke:#a93b35}
+    .trip-chart-canvas .chart-point.stay-homestay{fill:#357db7;stroke:#235f91}
+    .trip-chart-canvas .chart-point.stay-mixed{fill:url(#chart-stay-mixed);stroke:#745d86}
+    .trip-chart-canvas .chart-point.stay-none{fill:#fff9ec;stroke:#aaa398}
+    .trip-chart-canvas .chart-point.is-selected{r:7;stroke:#fff9ec;stroke-width:4;filter:drop-shadow(0 2px 3px rgba(22,62,54,.35))}
     .trip-chart-canvas .chart-day-label.is-selected{fill:#c95f46;font-weight:800}
     .trip-chart-tooltip{position:absolute;z-index:4;min-width:132px;padding:9px 11px;background:#173f36;color:#fff7e8;box-shadow:0 7px 18px rgba(12,39,32,.25);font-size:11px;line-height:1.45;pointer-events:none;transform:translate(-50%,-100%)}
     .trip-chart-tooltip[hidden]{display:none}
     .trip-chart-tooltip b{display:block;color:#efc16f;font-size:13px}
+    .trip-chart-tooltip small{display:block;margin-top:4px;color:#d9e7df;font-size:10px}
     .trip-chart-selected{display:flex;align-items:center;justify-content:space-between;gap:18px;min-height:48px;margin-top:4px;padding:10px 0;border-top:1px solid #ded4c4;color:#355a50}
     .trip-chart-selected b{font-size:14px}
     .trip-chart-selected span{color:#c75d45;font:25px Georgia,serif;white-space:nowrap}
@@ -928,6 +944,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
       .trip-metric-summary{display:flex;align-items:end;justify-content:space-between;gap:15px;min-width:0;margin-top:16px;text-align:left}
       .trip-metric-summary b{margin:0;font-size:28px;text-align:right}
       .trip-chart-note{padding:0 15px;margin-top:12px}
+      .trip-stay-legend{margin:11px 15px 0}
       .trip-chart-mobile-hint{display:flex;align-items:center;justify-content:space-between;margin:14px 15px 0;color:#65776d;font-size:11px;font-weight:800}
       .trip-chart-mobile-hint:after{content:"→";color:#d96649;font-size:18px;animation:swipeCue 1.4s ease-in-out infinite}
       .trip-chart-shell{margin-top:0;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;overscroll-behavior-x:contain}
@@ -962,7 +979,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
   <section class="accommodation-log" id="accommodations"><div class="wrap"><div class="kicker">06　STAY ORGANIZER</div><div class="intro-head"><h2>每一晚，都有<br><em>清楚的落脚点。</em></h2><p>把定好的酒店、具体位置、价格、房间数和最晚取消时间记在这里；内容会自动保存在当前浏览器。</p></div><div class="accommodation-layout"><details class="booking-entry" id="booking-entry"><summary><span><b>添加 / 修改酒店</b><small>点击展开填写</small></span><i>＋</i></summary><form class="booking-form" id="booking-form"><span class="kicker">ADD A STAY</span><h3 id="booking-form-title">记录酒店</h3><p>填写后会即时出现在右侧清单中。</p><input id="booking-id" type="hidden"><label>入住日期<input id="booking-date" type="date" required></label><label>酒店名称<input id="booking-name" type="text" placeholder="例如：恩施女儿城附近酒店" required></label><div class="form-row"><label>价格（元 / 晚）<input id="booking-price" type="number" min="0" step="1" placeholder="0" required></label><label>房间个数<input id="booking-rooms" type="number" min="1" step="1" value="1" required></label></div><label>预订状态<select id="booking-status"><option value="pending">待决定</option><option value="booked">已预订</option></select></label><label>具体位置 / 地址<textarea id="booking-address" rows="3" placeholder="酒店完整地址、停车入口或导航提示"></textarea></label><label>备注（可选）<textarea id="booking-note" rows="2" placeholder="例如：需要无烟房、适合长辈、早餐时间等"></textarea></label><label>最晚免费取消时间<input id="booking-deadline" type="datetime-local"></label><div class="booking-form-actions"><button class="save-booking" type="submit">加入住宿清单</button><button class="cancel-booking" id="cancel-booking" type="button" hidden>取消修改</button></div><p class="booking-hint" id="booking-hint" aria-live="polite"></p></form></details><div class="booking-list-panel"><div class="booking-summary"><div><span>已记录</span><b id="booking-total">0</b></div><div><span>已预订</span><b id="booking-booked">0</b></div><div><span>已订花费</span><b id="booking-cost">¥0</b></div><div><span>待订预估</span><b id="booking-pending-cost">¥0</b></div></div><div class="booking-list-head"><div><span class="kicker">YOUR STAYS</span><h3>酒店清单</h3></div><p id="booking-order">按入住日期排列</p></div><div id="booking-list" class="booking-list" aria-live="polite"></div></div></div></div></section>
   <section class="gallery wrap" id="gallery"><div class="gallery-head"><div><div class="kicker">07　FAMILY ARCHIVE</div><h2>这趟路还没出发，<br><em>我们的合影先到站。</em></h2></div><p>曾一起看过的山水，是这次十人同行最好的预告。新的夏日故事，会继续留在这里。</p></div><div class="gallery-grid"><figure class="photo p1"><img loading="lazy" decoding="async" src="IMG_1908.jpeg" alt="家人在宴会厅的合影"><figcaption><small>FAMILY ARCHIVE</small><b>出发前，先把大家聚在一起</b></figcaption></figure><figure class="photo"><img loading="lazy" decoding="async" src="IMG_5195.jpeg" alt="长辈在张家界天门山的合影"><figcaption><small>张家界 · 从前的山水</small><b>山路的经验，已经在行囊里</b></figcaption></figure><figure class="photo"><img loading="lazy" decoding="async" src="IMG_9062.JPG" alt="三代家人的室内合影"><figcaption><small>FAMILY ARCHIVE</small><b>三代同堂，下一站再见</b></figcaption></figure><figure class="photo p4"><img loading="lazy" decoding="async" src="055e085f51e3b10551e913f6916f2bbc.jpg" alt="家人在张家界武陵源的合影"><figcaption><small>张家界 · 武陵源</small><b>雨里也有一起出发的勇气</b></figcaption></figure><figure class="photo p5"><img loading="lazy" decoding="async" src="202509290514457291.jpg" alt="家人在山地旅行中的合影"><figcaption><small>FAMILY ARCHIVE · 山地远行</small><b>山风很大，大家仍站在一起</b></figcaption></figure><figure class="photo p6"><img loading="lazy" decoding="async" src="20250929051318749165.jpg" alt="三代家人在户外的合影"><figcaption><small>FAMILY ARCHIVE · 三代同行</small><b>下一次出发，也要这样同行</b></figcaption></figure></div></section>
   <section class="food-log" id="food-log"><div class="wrap"><div class="kicker">07　FOOD ORGANIZER</div><div class="intro-head"><h2>吃什么，<br><em>先按地点慢慢存。</em></h2><p>把喜欢的、看好的餐厅或小吃先记下来；清单会按每天会经过的落脚地点自动分组，之后再决定是否去吃。</p></div><div class="food-layout"><details class="food-entry" id="food-entry"><summary><span><b>添加 / 修改美食备选</b><small>点击展开填写</small></span><i>＋</i></summary><form class="food-form" id="food-form"><span class="kicker">SAVE A PLACE</span><h3 id="food-form-title">记录餐厅</h3><p>填写后会自动归到对应地点的清单里。</p><input id="food-id" type="hidden"><label>途经地点<select id="food-location" required><option value="">请选择地点</option><option>襄阳</option><option>宜昌</option><option>恩施</option><option>咸丰</option><option>镇远</option><option>荔波</option><option>平塘</option><option>贵阳</option><option>兴义</option><option>抚仙湖</option><option>昆明</option><option>大理</option><option>腾冲</option><option>临沧</option><option>普洱</option><option>西双版纳</option><option>太原</option></select></label><label>餐厅 / 小吃名称<input id="food-name" type="text" placeholder="例如：一家想去的酸汤鱼" required></label><div class="form-row"><label>人均预算（元）<input id="food-price" type="number" min="0" step="1" placeholder="选填"></label><label>当前状态<select id="food-status"><option value="want">想去</option><option value="shortlist">候选</option><option value="planned">已安排</option></select></label></div><label>具体地点 / 地址<textarea id="food-address" rows="3" placeholder="街道、商场、地图链接或停车提示"></textarea></label><label>想吃什么 / 备注<textarea id="food-note" rows="3" placeholder="招牌菜、适合几人、营业时间或个人备注"></textarea></label><div class="food-form-actions"><button class="save-food" type="submit">加入美食备选</button><button class="cancel-food" id="cancel-food" type="button" hidden>取消修改</button></div><p class="food-hint" id="food-hint" aria-live="polite"></p></form></details><div class="food-list-panel"><div class="food-list-head"><div><span class="kicker">PLACES TO EAT</span><h3>按地点的美食备选</h3></div><p id="food-count">还没有登记</p></div><div id="food-list" aria-live="polite"></div></div></div></div></section>
-  <section class="trip-data-section" id="trip-data"><div class="wrap"><div class="trip-data-head"><div><div class="kicker">08　DAILY DATA</div><h2>把一路的花费与天气，<br><em>放进同一条时间线。</em></h2></div><p>横轴从第一天走到最后一天；点击下方项目即可切换纵轴。住宿读取清单中的每日费用，里程跟随当前路线，其余项目以清晰标注的行前假设进行估算。</p></div><div class="trip-chart-panel"><div class="trip-chart-toolbar"><div class="trip-metric-controls" role="group" aria-label="选择图表纵轴"><button class="trip-metric-button is-active" type="button" data-trip-metric="stay" aria-pressed="true">住宿费用</button><button class="trip-metric-button" type="button" data-trip-metric="distance" aria-pressed="false">行驶公里</button><button class="trip-metric-button" type="button" data-trip-metric="toll" aria-pressed="false">预计过路费</button><button class="trip-metric-button" type="button" data-trip-metric="fuel" aria-pressed="false">预计加油费</button><button class="trip-metric-button" type="button" data-trip-metric="temperature" aria-pressed="false">预计气温</button><button class="trip-metric-button" type="button" data-trip-metric="humidity" aria-pressed="false">预计湿度</button></div><div class="trip-metric-summary" aria-live="polite"><span id="trip-metric-summary-label">全程已记录住宿</span><b id="trip-metric-summary-value">¥0</b></div></div><p class="trip-chart-note" id="trip-chart-note">取自住宿清单；同一天有多条住宿时自动合计，尚未登记的日期显示为 0。</p><div class="trip-chart-mobile-hint" aria-hidden="true">左右滑动查看 D1—D22</div><div class="trip-chart-shell" id="trip-chart-shell"><svg class="trip-chart-canvas" id="trip-data-chart" viewBox="0 0 1080 410" role="img" aria-labelledby="trip-chart-title trip-chart-desc"></svg><div class="trip-chart-tooltip" id="trip-chart-tooltip" role="tooltip" hidden></div></div><div class="trip-chart-selected" aria-live="polite"><b id="trip-chart-selected-label">D1 · 7.25 · 襄阳 · 住宿费用</b><span id="trip-chart-selected-value">¥0</span></div><label class="trip-day-scrubber" for="trip-day-range"><span>查看日期</span><input id="trip-day-range" type="range" min="1" max="22" value="1" step="1"><output id="trip-day-output" for="trip-day-range">D1</output></label><p class="trip-chart-assumptions"><span>过路费：两辆车合计，按高速约 ¥0.45 / 车公里估算</span><span>加油费：两辆车、百公里 9 L、¥7.8 / L 估算</span><span>气温与湿度为行前规划值，临近出发请以天气中枢的实时预报为准</span></p></div></div></section>
+  <section class="trip-data-section" id="trip-data"><div class="wrap"><div class="trip-data-head"><div><div class="kicker">08　DAILY DATA</div><h2>把一路的花费与天气，<br><em>放进同一条时间线。</em></h2></div><p>横轴从第一天走到最后一天；点击下方项目即可切换纵轴。住宿读取清单中的每日费用，里程跟随当前路线，其余项目以清晰标注的行前假设进行估算。</p></div><div class="trip-chart-panel"><div class="trip-chart-toolbar"><div class="trip-metric-controls" role="group" aria-label="选择图表纵轴"><button class="trip-metric-button is-active" type="button" data-trip-metric="stay" aria-pressed="true">住宿费用</button><button class="trip-metric-button" type="button" data-trip-metric="distance" aria-pressed="false">行驶公里</button><button class="trip-metric-button" type="button" data-trip-metric="toll" aria-pressed="false">预计过路费</button><button class="trip-metric-button" type="button" data-trip-metric="fuel" aria-pressed="false">预计加油费</button><button class="trip-metric-button" type="button" data-trip-metric="temperature" aria-pressed="false">预计气温</button><button class="trip-metric-button" type="button" data-trip-metric="humidity" aria-pressed="false">预计湿度</button></div><div class="trip-metric-summary" aria-live="polite"><span id="trip-metric-summary-label">全程已记录住宿</span><b id="trip-metric-summary-value">¥0</b></div></div><p class="trip-chart-note" id="trip-chart-note">取自住宿清单；同一天有多条住宿时自动合计，尚未登记的日期显示为 0。</p><div class="trip-stay-legend" id="trip-stay-legend" aria-label="住宿类型图例"><span><i class="is-hotel" aria-hidden="true"></i>酒店</span><span><i class="is-homestay" aria-hidden="true"></i>民宿</span></div><div class="trip-chart-mobile-hint" aria-hidden="true">左右滑动查看 D1—D22</div><div class="trip-chart-shell" id="trip-chart-shell"><svg class="trip-chart-canvas" id="trip-data-chart" viewBox="0 0 1080 410" role="img" aria-labelledby="trip-chart-title trip-chart-desc"></svg><div class="trip-chart-tooltip" id="trip-chart-tooltip" role="tooltip" hidden></div></div><div class="trip-chart-selected" aria-live="polite"><b id="trip-chart-selected-label">D1 · 7.25 · 襄阳 · 住宿费用</b><span id="trip-chart-selected-value">¥0</span></div><label class="trip-day-scrubber" for="trip-day-range"><span>查看日期</span><input id="trip-day-range" type="range" min="1" max="22" value="1" step="1"><output id="trip-day-output" for="trip-day-range">D1</output></label><p class="trip-chart-assumptions"><span>过路费：两辆车合计，按高速约 ¥0.45 / 车公里估算</span><span>加油费：两辆车、百公里 9 L、¥7.8 / L 估算</span><span>气温与湿度为行前规划值，临近出发请以天气中枢的实时预报为准</span></p></div></div></section>
   <footer><b>漫西南夏日远行</b><span id="footer-dates">太原出发 · 07.25 — 08.15</span><div class="github-sync"><button id="github-sync-button" type="button">同步旅行记录到 GitHub</button><small id="github-sync-status">首次配置后，住宿、美食和游览记录会自动同步到 GitHub。</small></div><button onclick="scrollTo({top:0,behavior:'smooth'})">回到出发处 ↑</button></footer>
   <script>/* @preserve
  * Leaflet 1.9.4, a JS library for interactive maps. https://leafletjs.com
@@ -1293,7 +1310,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
     const TRIP_CHART_FLEET_SIZE=2,TRIP_CHART_TOLL_RATE=.45,TRIP_CHART_FUEL_L_PER_100KM=9,TRIP_CHART_FUEL_PRICE=7.8;
     const tripClimateByCity={太原:[28,62],襄阳:[30,77],宜昌:[30,80],恩施:[27,84],咸丰:[26,85],镇远:[29,82],千户苗寨:[26,86],荔波:[29,84],贵阳:[24,81],安顺:[24,82],兴义:[25,80],抚仙湖:[23,76],昆明:[23,74],大理:[23,72],腾冲:[23,83],临沧:[25,78],西双版纳:[29,84],攀枝花:[28,68],昭通:[23,78],巴中:[29,82],渭南:[31,72]};
     const tripMetricConfig={
-      stay:{label:'住宿费用',unit:'元',summary:'全程已记录住宿',note:'按入住日期显示当天价格；已预订住宿优先于待选方案，同一天确有不同已订住宿时按家庭当日总额合计。'},
+      stay:{label:'住宿费用',unit:'元',summary:'全程已记录住宿',note:'按入住日期显示当天价格；酒店用红色、民宿用蓝色标注，同一天同时入住两类住宿时使用红蓝双色点。'},
       distance:{label:'行驶公里',unit:'km',summary:'全程自驾里程',note:'跟随当前路线方案；飞机里程不计入，市内短驳尚未计入路线数据。'},
       toll:{label:'预计过路费',unit:'元',summary:'两辆车预计合计',note:'仅对自驾转场按两辆车、约 ¥0.45 / 车公里估算；当地游和飞机日按 0 计算。'},
       fuel:{label:'预计加油费',unit:'元',summary:'两辆车预计合计',note:'按两辆车、每车百公里 9 L、油价 ¥7.8 / L 估算；不含尚未录入的市内短驳。'},
@@ -1302,20 +1319,24 @@ svg.leaflet-image-layer.leaflet-interactive path {
     };
     let tripChartMetric='stay',tripChartSelectedDay=0,tripChartPositions=[],tripChartFrame=0;
     // 已订住宿和逐日记录优先，避免待选方案或连住记录重复计价。
-    function tripStayPricesByDate(records){
+    function tripStayKind(record){return /(民宿|公寓|套房|别墅|客栈|房东)/.test(`${record.name||''} ${record.note||''}`)?'homestay':'hotel'}
+    function tripStayBreakdownByDate(records){
       const dateKey=(start,offset)=>{const date=new Date(`${start}T12:00:00`);date.setDate(date.getDate()+offset);return`${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`};
       const normalized=[...new Map(records.filter(record=>record.stayDate).map(record=>{const nights=Math.max(1,explicitStayNights(record.note)),signature=[record.city,record.stayDate,String(record.name||'').trim(),Number(record.price)||0,Number(record.rooms)||1,nights,record.status].join('|');return[signature,{...record,nights}]})).values()];
       const bookedDates=new Set();
       normalized.filter(record=>record.status==='booked').forEach(record=>{for(let offset=0;offset<record.nights;offset++)bookedDates.add(`${record.city}|${dateKey(record.stayDate,offset)}`)});
-      const unique=normalized.filter(record=>record.status==='booked'||!bookedDates.has(`${record.city}|${record.stayDate}`)),prices=new Map();
+      const unique=normalized.filter(record=>record.status==='booked'||!bookedDates.has(`${record.city}|${record.stayDate}`)),breakdown=new Map();
       unique.forEach(record=>{
         const covered=Array.from({length:record.nights},(_,offset)=>dateKey(record.stayDate,offset));
         const hasDailyReplacement=record.nights>1&&covered.every(date=>unique.some(other=>other!==record&&other.city===record.city&&other.stayDate===date&&other.nights===1));
         if(hasDailyReplacement)return;
-        covered.forEach((date,offset)=>{const hasOwnDayRecord=offset>0&&unique.some(other=>other!==record&&other.city===record.city&&other.stayDate===date);if(hasOwnDayRecord)return;prices.set(date,(prices.get(date)||0)+(Number(record.price)||0))});
+        covered.forEach((date,offset)=>{const hasOwnDayRecord=offset>0&&unique.some(other=>other!==record&&other.city===record.city&&other.stayDate===date);if(hasOwnDayRecord)return;const kind=tripStayKind(record),parts=breakdown.get(date)||{hotel:0,homestay:0};parts[kind]+=(Number(record.price)||0);breakdown.set(date,parts)});
       });
-      return prices;
+      return breakdown;
     }
+    function tripStayPricesByDate(records){return new Map([...tripStayBreakdownByDate(records)].map(([date,parts])=>[date,parts.hotel+parts.homestay]))}
+    function tripStayTypeForDate(parts){if(!parts||(!parts.hotel&&!parts.homestay))return'none';if(parts.hotel&&parts.homestay)return'mixed';return parts.homestay?'homestay':'hotel'}
+    function tripStayTypeLabel(parts){const labels=[];if(parts?.hotel)labels.push(`酒店 ${tripMetricValue(parts.hotel,'stay')}`);if(parts?.homestay)labels.push(`民宿 ${tripMetricValue(parts.homestay,'stay')}`);return labels.join(' · ')||'当日未登记住宿'}
     function tripChartValues(metric){
       const stayByDate=tripStayPricesByDate(getBookings());
       return plans.map((plan,index)=>{
@@ -1347,9 +1368,11 @@ svg.leaflet-image-layer.leaflet-interactive path {
       $('#trip-metric-summary-label').textContent=metric.summary;
       $('#trip-metric-summary-value').textContent=tripMetricValue(summaryValue,tripChartMetric);
       $('#trip-chart-note').textContent=metric.note;
+      const stayLegend=$('#trip-stay-legend');if(stayLegend)stayLegend.hidden=tripChartMetric!=='stay';
       tripChartSelectedDay=Math.min(tripChartSelectedDay,Math.max(0,plans.length-1));
       const plan=plans[tripChartSelectedDay];
-      $('#trip-chart-selected-label').textContent=`D${tripChartSelectedDay+1} · ${plan[0]} · ${plan[4]} · ${metric.label}`;
+      const stayDetail=tripChartMetric==='stay'?` · ${tripStayTypeLabel(tripStayBreakdownByDate(getBookings()).get(tripDateISO(tripChartSelectedDay)))}`:'';
+      $('#trip-chart-selected-label').textContent=`D${tripChartSelectedDay+1} · ${plan[0]} · ${plan[4]} · ${metric.label}${stayDetail}`;
       $('#trip-chart-selected-value').textContent=tripMetricValue(values[tripChartSelectedDay],tripChartMetric);
       const range=$('#trip-day-range');range.max=String(plans.length);range.value=String(tripChartSelectedDay+1);
       $('#trip-day-output').value=`D${tripChartSelectedDay+1}`;
@@ -1358,13 +1381,16 @@ svg.leaflet-image-layer.leaflet-interactive path {
     function drawTripChart(values,scale,positions,bindEvents=true){
       const svg=$('#trip-data-chart');if(!svg||!plans.length)return;
       const W=1080,H=410,left=72,right=28,top=36,bottom=74,plotW=W-left-right,plotH=H-top-bottom,baseY=top+plotH,metric=tripMetricConfig[tripChartMetric];
+      const stayBreakdown=tripChartMetric==='stay'?tripStayBreakdownByDate(getBookings()):null;
+      svg.classList.toggle('is-stay-metric',tripChartMetric==='stay');
       const x=index=>left+(plans.length===1?plotW/2:index*plotW/(plans.length-1));
       const ticks=Array.from({length:6},(_,index)=>scale.min+(scale.max-scale.min)*index/5);
       const grid=ticks.map(value=>{const y=top+(scale.max-value)/(scale.max-scale.min)*plotH;return`<line class="chart-grid" x1="${left}" y1="${y}" x2="${W-right}" y2="${y}"></line><text class="chart-axis" x="${left-12}" y="${y+4}" text-anchor="end">${tripMetricValue(value,tripChartMetric,true)}</text>`}).join('');
       const points=positions.map((y,index)=>`${index?'L':'M'}${x(index).toFixed(1)},${y.toFixed(1)}`).join(' '),area=`${points} L${x(plans.length-1).toFixed(1)},${baseY} L${x(0).toFixed(1)},${baseY} Z`;
-      const marks=positions.map((y,index)=>`<line class="chart-stem" x1="${x(index)}" y1="${y}" x2="${x(index)}" y2="${baseY}"></line><circle class="chart-point${index===tripChartSelectedDay?' is-selected':''}" cx="${x(index)}" cy="${y}" r="5"></circle><circle class="chart-hit" data-chart-day="${index}" cx="${x(index)}" cy="${y}" r="15"></circle>`).join('');
+      const marks=positions.map((y,index)=>{const stayClass=tripChartMetric==='stay'?` stay-${tripStayTypeForDate(stayBreakdown.get(tripDateISO(index)))}`:'';return`<line class="chart-stem${stayClass}" x1="${x(index)}" y1="${y}" x2="${x(index)}" y2="${baseY}"></line><circle class="chart-point${stayClass}${index===tripChartSelectedDay?' is-selected':''}" cx="${x(index)}" cy="${y}" r="5"></circle><circle class="chart-hit" data-chart-day="${index}" cx="${x(index)}" cy="${y}" r="15"></circle>`}).join('');
       const labels=plans.map((plan,index)=>`<text class="chart-axis chart-day-label${index===tripChartSelectedDay?' is-selected':''}" x="${x(index)}" y="${baseY+30}" text-anchor="middle">D${index+1}</text><text class="chart-axis" x="${x(index)}" y="${baseY+47}" text-anchor="middle">${plan[0]}</text>`).join('');
-      svg.innerHTML=`<title id="trip-chart-title">${metric.label}逐日趋势图</title><desc id="trip-chart-desc">横轴为 D1 到 D${plans.length}，纵轴为${metric.label}，当前选中 D${tripChartSelectedDay+1}，数值${tripMetricValue(values[tripChartSelectedDay],tripChartMetric)}。</desc>${grid}<text class="chart-axis-title" x="${left}" y="18">${metric.label} · ${metric.unit}</text><path class="chart-area" d="${area}"></path><path class="chart-line" d="${points}"></path>${marks}${labels}`;
+      const stayDefs=tripChartMetric==='stay'?'<defs><linearGradient id="chart-stay-mixed"><stop offset="0%" stop-color="#cf4f45"></stop><stop offset="50%" stop-color="#cf4f45"></stop><stop offset="50%" stop-color="#357db7"></stop><stop offset="100%" stop-color="#357db7"></stop></linearGradient></defs>':'';
+      svg.innerHTML=`<title id="trip-chart-title">${metric.label}逐日趋势图</title><desc id="trip-chart-desc">横轴为 D1 到 D${plans.length}，纵轴为${metric.label}，当前选中 D${tripChartSelectedDay+1}，数值${tripMetricValue(values[tripChartSelectedDay],tripChartMetric)}。</desc>${stayDefs}${grid}<text class="chart-axis-title" x="${left}" y="18">${metric.label} · ${metric.unit}</text><path class="chart-area" d="${area}"></path><path class="chart-line" d="${points}"></path>${marks}${labels}`;
       if(bindEvents)svg.querySelectorAll('[data-chart-day]').forEach(hit=>{
         const day=Number(hit.dataset.chartDay);
         hit.addEventListener('pointerenter',()=>showTripChartTooltip(day,values,positions));
@@ -1374,7 +1400,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
     }
     function showTripChartTooltip(day,values,positions){
       const tooltip=$('#trip-chart-tooltip'),svg=$('#trip-data-chart'),plan=plans[day];if(!tooltip||!svg||!plan)return;
-      tooltip.replaceChildren();const value=document.createElement('b'),label=document.createElement('span');value.textContent=tripMetricValue(values[day],tripChartMetric);label.textContent=`D${day+1} · ${plan[0]} · ${plan[4]}`;tooltip.append(value,label);tooltip.hidden=false;
+      tooltip.replaceChildren();const value=document.createElement('b'),label=document.createElement('span');value.textContent=tripMetricValue(values[day],tripChartMetric);label.textContent=`D${day+1} · ${plan[0]} · ${plan[4]}`;tooltip.append(value,label);if(tripChartMetric==='stay'){const detail=document.createElement('small');detail.textContent=tripStayTypeLabel(tripStayBreakdownByDate(getBookings()).get(tripDateISO(day)));tooltip.append(detail)}tooltip.hidden=false;
       const left=72+(plans.length===1?490:day*980/(plans.length-1)),svgWidth=svg.clientWidth,scaledX=left/1080*svgWidth,scaledY=positions[day]/410*svg.clientHeight;
       tooltip.style.left=`${Math.max(72,Math.min(svgWidth-72,scaledX))}px`;tooltip.style.top=`${Math.max(54,scaledY-8)}px`;
     }
