@@ -1,6 +1,11 @@
 #!/usr/bin/env node
 // 抓取方案 A/B 每个驾车日的 OSRM 真实道路轨迹 + 里程/时长,输出 tools/routes.json
-// 用法: node tools/fetch_routes.mjs   (之后运行 node tools/inject_routes.mjs 注入 index.html)
+// 用法: node tools/fetch_routes.mjs          # 全量刷新
+//       node tools/fetch_routes.mjs A20 B20  # 只刷新指定方案/日期
+// 之后运行 node tools/inject_routes.mjs 注入 index.html
+import fs from 'node:fs/promises';
+
+const requestedDays = new Set(process.argv.slice(2).map((value) => value.toUpperCase()));
 
 const places = {
   太原: [37.8706, 112.5489], 襄阳: [32.009, 112.122], 宜昌: [30.6919, 111.2865],
@@ -13,7 +18,7 @@ const places = {
   弥勒: [24.408, 103.306], 抚仙湖: [24.673, 102.904], 昆明: [25.039, 102.718],
   大理: [25.606, 100.267], 大理古城: [25.695, 100.156], 丽江: [26.872, 100.229],
   攀枝花: [26.582, 101.718], 昭通: [27.338, 103.716], 巴中: [31.868, 106.753],
-  渭南: [34.5, 109.51], 临沧: [23.8878, 100.0926], 腾冲: [25.021, 98.491],
+  渭南: [34.5, 109.51], 临沧: [23.8878, 100.0926], 普洱: [22.788, 100.981], 腾冲: [25.021, 98.491],
   西双版纳: [22.008, 100.798],
 };
 
@@ -38,7 +43,7 @@ const planA = [
   ['大理', [], '腾冲'],
   ['腾冲', [], '腾冲'],
   ['腾冲', [], '临沧'],
-  ['临沧', [], '西双版纳'],
+  ['临沧', ['普洱'], '西双版纳'],
   ['西双版纳', [], '西双版纳'],
   ['西双版纳', [], '太原', 'fly'],
 ];
@@ -63,7 +68,7 @@ const planB = [
   ['腾冲', [], '腾冲'],
   ['腾冲', [], '腾冲'],
   ['腾冲', [], '临沧'],
-  ['临沧', [], '西双版纳'],
+  ['临沧', ['普洱'], '西双版纳'],
   ['西双版纳', [], '西双版纳'],
   ['西双版纳', [], '太原', 'fly'],
 ];
@@ -168,10 +173,16 @@ async function fetchDay(anchors, attempt = 1) {
   return { geometry: route.geometry, distM: route.distance, durS: route.duration };
 }
 
-async function buildPlanTracks(rows, label) {
+async function buildPlanTracks(rows, label, previous) {
   const tracks = [], stats = [];
   for (let i = 0; i < rows.length; i++) {
     const [from, via, to, mode] = rows[i];
+    if (requestedDays.size && !requestedDays.has(`${label}${i + 1}`)) {
+      if (!previous || i >= previous.tracks.length || i >= previous.stats.length) throw new Error(`缺少 ${label}${i + 1} 的既有路线数据`);
+      tracks.push(previous.tracks[i]);
+      stats.push(previous.stats[i]);
+      continue;
+    }
     if (mode === 'fly') {
       const km = Math.round(haversineKm(places[from], places[to]));
       tracks.push(null);
@@ -199,11 +210,12 @@ async function buildPlanTracks(rows, label) {
   return { tracks, stats };
 }
 
-const a = await buildPlanTracks(planA, 'A');
-const b = await buildPlanTracks(planB, 'B');
-const c = await buildPlanTracks(planC, 'C');
-const output = { tracks: { a: a.tracks, b: b.tracks, c: c.tracks }, stats: { a: a.stats, b: b.stats, c: c.stats } };
 const outPath = new URL('./routes.json', import.meta.url);
-await import('node:fs/promises').then((fs) => fs.writeFile(outPath, JSON.stringify(output)));
+const previous = requestedDays.size ? JSON.parse(await fs.readFile(outPath, 'utf8')) : null;
+const a = await buildPlanTracks(planA, 'A', previous && { tracks: previous.tracks.a, stats: previous.stats.a });
+const b = await buildPlanTracks(planB, 'B', previous && { tracks: previous.tracks.b, stats: previous.stats.b });
+const c = await buildPlanTracks(planC, 'C', previous && { tracks: previous.tracks.c, stats: previous.stats.c });
+const output = { tracks: { a: a.tracks, b: b.tracks, c: c.tracks }, stats: { a: a.stats, b: b.stats, c: c.stats } };
+await fs.writeFile(outPath, JSON.stringify(output));
 const size = JSON.stringify(output.tracks).length;
 console.log(`\n完成:tracks 体积 ≈ ${(size / 1024).toFixed(1)} KB,已写入 tools/routes.json`);
