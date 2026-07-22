@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-19T17:29:30Z",
+  "updatedAt": "2026-07-22T16:47:12.570Z",
   "accommodations": [
     {
       "id": "1783846298855-a5802aac1c21e8",
@@ -249,7 +249,7 @@
       "name": "大理西风瘦马别墅(洱海机场店)",
       "price": 1156,
       "rooms": 4,
-      "status": "booked",
+      "status": "pending",
       "address": "中国大陆/云南/大理州/大理市机场路大理公馆二期蝶翠锦亭18栋",
       "note": "还没完全考虑好 先定了 再考虑。住两晚",
       "deadline": "2026-08-07T18:00"
