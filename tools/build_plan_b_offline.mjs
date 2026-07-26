@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// 不联网：复用方案 A/C 已保存的 OSRM 轨迹，拼出“荔波天气备选线”。
+// 不联网：复用方案 A/C 已保存的 OSRM 轨迹，拼出“天眼分段备选线”。
 import fs from 'node:fs/promises';
 
 const routePath = new URL('./routes.json', import.meta.url);
