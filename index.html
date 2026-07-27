@@ -908,6 +908,10 @@ svg.leaflet-image-layer.leaflet-interactive path {
     .trip-chart-canvas .chart-axis-title{fill:#385d52;font:800 11px var(--font-sans);letter-spacing:.08em}
     .trip-chart-canvas .chart-area{fill:#d96649;fill-opacity:.12}
     .trip-chart-canvas .chart-line{fill:none;stroke:#d96649;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+    .trip-chart-canvas .chart-average-line{stroke:#214b40;stroke-width:2;stroke-dasharray:8 6;stroke-opacity:.78;pointer-events:none}
+    .trip-chart-canvas .chart-average-dot{fill:#214b40;stroke:#fff9ec;stroke-width:2;pointer-events:none}
+    .trip-chart-canvas .chart-average-label-bg{fill:#214b40;fill-opacity:.94;pointer-events:none}
+    .trip-chart-canvas .chart-average-label{fill:#fff9ec;font:800 11px var(--font-sans);letter-spacing:.02em;pointer-events:none}
     .trip-chart-canvas .chart-stem{stroke:#d96649;stroke-width:1;stroke-opacity:.2}
     .trip-chart-canvas .chart-point{fill:#fff9ec;stroke:#d96649;stroke-width:3;cursor:pointer;transition:r .18s,fill .18s}
     .trip-chart-canvas .chart-hit{fill:transparent;cursor:pointer}
@@ -1533,11 +1537,14 @@ svg.leaflet-image-layer.leaflet-interactive path {
       const x=index=>left+(plans.length===1?plotW/2:index*plotW/(plans.length-1));
       const ticks=Array.from({length:6},(_,index)=>scale.min+(scale.max-scale.min)*index/5);
       const grid=ticks.map(value=>{const y=top+(scale.max-value)/(scale.max-scale.min)*plotH;return`<line class="chart-grid" x1="${left}" y1="${y}" x2="${W-right}" y2="${y}"></line><text class="chart-axis" x="${left-12}" y="${y+4}" text-anchor="end">${tripMetricValue(value,tripChartMetric,true)}</text>`}).join('');
+      const average=values.reduce((sum,value)=>sum+value,0)/Math.max(1,values.length),averageY=top+(scale.max-average)/(scale.max-scale.min)*plotH,averageLabel=`全程日均 ${tripMetricValue(average,tripChartMetric)}`,averageBadgeY=Math.max(top+4,Math.min(baseY-28,averageY-12));
+      const averageGuide=`<line class="chart-average-line" x1="${left}" y1="${averageY}" x2="${W-right}" y2="${averageY}"></line><circle class="chart-average-dot" cx="${W-right}" cy="${averageY}" r="4"></circle>`;
+      const averageBadge=`<rect class="chart-average-label-bg" x="${left+8}" y="${averageBadgeY}" width="176" height="24" rx="3"></rect><text class="chart-average-label" x="${left+18}" y="${averageBadgeY+16}">${averageLabel}</text>`;
       const points=positions.map((y,index)=>`${index?'L':'M'}${x(index).toFixed(1)},${y.toFixed(1)}`).join(' '),area=`${points} L${x(plans.length-1).toFixed(1)},${baseY} L${x(0).toFixed(1)},${baseY} Z`;
       const marks=positions.map((y,index)=>{const stayClass=tripChartMetric==='stay'?` stay-${tripStayTypeForDate(stayBreakdown.get(tripDateISO(index)))}`:'';return`<line class="chart-stem${stayClass}" x1="${x(index)}" y1="${y}" x2="${x(index)}" y2="${baseY}"></line><circle class="chart-point${stayClass}${index===tripChartSelectedDay?' is-selected':''}" cx="${x(index)}" cy="${y}" r="5"></circle><circle class="chart-hit" data-chart-day="${index}" cx="${x(index)}" cy="${y}" r="15"></circle>`}).join('');
       const labels=plans.map((plan,index)=>`<text class="chart-axis chart-day-label${index===tripChartSelectedDay?' is-selected':''}" x="${x(index)}" y="${baseY+30}" text-anchor="middle">D${index+1}</text><text class="chart-axis" x="${x(index)}" y="${baseY+47}" text-anchor="middle">${plan[0]}</text>`).join('');
       const stayDefs=tripChartMetric==='stay'?'<defs><linearGradient id="chart-stay-mixed"><stop offset="0%" stop-color="#cf4f45"></stop><stop offset="50%" stop-color="#cf4f45"></stop><stop offset="50%" stop-color="#357db7"></stop><stop offset="100%" stop-color="#357db7"></stop></linearGradient></defs>':'';
-      svg.innerHTML=`<title id="trip-chart-title">${metric.label}逐日趋势图</title><desc id="trip-chart-desc">横轴为 D1 到 D${plans.length}，纵轴为${metric.label}，当前选中 D${tripChartSelectedDay+1}，数值${tripMetricValue(values[tripChartSelectedDay],tripChartMetric)}。</desc>${stayDefs}${grid}<text class="chart-axis-title" x="${left}" y="18">${metric.label} · ${metric.unit}</text><path class="chart-area" d="${area}"></path><path class="chart-line" d="${points}"></path>${marks}${labels}`;
+      svg.innerHTML=`<title id="trip-chart-title">${metric.label}逐日趋势图</title><desc id="trip-chart-desc">横轴为 D1 到 D${plans.length}，纵轴为${metric.label}，全程日均${tripMetricValue(average,tripChartMetric)}，当前选中 D${tripChartSelectedDay+1}，数值${tripMetricValue(values[tripChartSelectedDay],tripChartMetric)}。</desc>${stayDefs}${grid}<text class="chart-axis-title" x="${left}" y="18">${metric.label} · ${metric.unit}</text><path class="chart-area" d="${area}"></path>${averageGuide}<path class="chart-line" d="${points}"></path>${marks}${averageBadge}${labels}`;
       if(bindEvents)svg.querySelectorAll('[data-chart-day]').forEach(hit=>{
         const day=Number(hit.dataset.chartDay);
         hit.addEventListener('pointerenter',()=>showTripChartTooltip(day,values,positions));
