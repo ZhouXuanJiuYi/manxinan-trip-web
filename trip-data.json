@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-28T16:49:33.000Z",
+  "updatedAt": "2026-07-28T16:52:40.000Z",
   "accommodations": [
     {
       "id": "1783846298855-a5802aac1c21e8",
@@ -462,15 +462,6 @@
       "status": "shortlist",
       "address": "",
       "note": "孔雀宴、傣味手抓饭"
-    },
-    {
-      "id": "1784300000000-rec-lb-01",
-      "location": "荔波",
-      "name": "姚厨",
-      "price": 0,
-      "status": "shortlist",
-      "address": "",
-      "note": "4.7★ · 豆花鱼"
     }
   ],
   "visits": [
