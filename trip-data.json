@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-30T16:14:34.988Z",
+  "updatedAt": "2026-08-03T17:03:44.100Z",
   "accommodations": [
     {
       "id": "1783846298855-a5802aac1c21e8",
@@ -277,6 +277,18 @@
       "address": "春城路327号",
       "note": "连住两晚",
       "deadline": "2026-08-05T18:00"
+    },
+    {
+      "id": "1785776598068-c4fa29daacd458",
+      "city": "弥勒",
+      "stayDate": "2026-08-04",
+      "name": "汉庭红河州弥勒酒店",
+      "price": 1205,
+      "rooms": 4,
+      "status": "booked",
+      "address": "上清路与弥勒大道交汇处弥阳街道北辰明珠B区(北辰明珠汉庭酒店)",
+      "note": "",
+      "deadline": "2026-08-04T20:00"
     }
   ],
   "foods": [
