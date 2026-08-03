@@ -1063,6 +1063,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
       {key:'anshun-zhenning-hanting',match:/汉庭安顺镇宁红树东方|西南外环东侧1号/,lat:26.0558,lng:105.7691,coord:'wgs',accuracy:'area'},
       {key:'xingyi-feiyang',match:/幸福里民宿|飞洋华府/,lat:25.130491,lng:104.938275,coord:'bd',accuracy:'community'},
       {key:'fuxian-cambrian',match:/抚仙湖夕迟民宿|寒武纪欢乐大世界|翡翠湾鹿湾/,lat:24.6285590204,lng:102.9618867676,coord:'wgs',accuracy:'community'},
+      {key:'mile-city',match:/弥勒/,lat:24.408,lng:103.306,coord:'wgs',accuracy:'area'},
       {key:'kunming-longhu',match:/昆明龙湖时代金融中心|春城路327号/,lat:24.9908,lng:102.7336,coord:'wgs',accuracy:'area',nights:2},
       {key:'kunming-caiyunlu',match:/花间驿[·・]彩云麓|彩云麓/,lat:25.0192762327,lng:102.6473080266,coord:'wgs',accuracy:'exact'},
       {key:'dali-gongguan',match:/带院子民宿|大理公馆三期三组团/,lat:25.63690915,lng:100.2923866759,coord:'wgs',accuracy:'community'},
@@ -1071,7 +1072,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
       {key:'xishuangbanna-orange',match:/桔子西双版纳.*泼水广场/,lat:22.0033635127,lng:100.8048935007,coord:'wgs',accuracy:'exact',nights:2}
     ];
     function storedBookingsForMap(){try{const rows=JSON.parse(localStorage.getItem('manxinan-trip-accommodations')||'[]');return Array.isArray(rows)?rows:[]}catch{return[]}}
-    function stayRuleFor(record){const text=`${record.name||''} ${record.address||''}`;return STAY_LOCATION_RULES.find(rule=>rule.match.test(text))||null}
+    function stayRuleFor(record){const text=`${record.city||''} ${record.name||''} ${record.address||''}`;return STAY_LOCATION_RULES.find(rule=>rule.match.test(text))||null}
     function stayRulePoint(rule){return rule.coord==='bd'?bd2gcj(rule.lat,rule.lng):rule.coord==='gcj'?[rule.lat,rule.lng]:wgs2gcj(rule.lat,rule.lng)}
     function addISODate(dateText,offset){const date=new Date(`${dateText}T12:00:00`);date.setDate(date.getDate()+offset);return`${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`}
     function stayNightCountForMap(record,rule){if(rule.nights)return rule.nights;const match=(record.note||'').match(/(?:连住|住|预订了)([一二两三四五六七八九\d]+)晚/),numbers={一:1,二:2,两:2,三:3,四:4,五:5,六:6,七:7,八:8,九:9};return match?Math.max(1,Number(match[1])||numbers[match[1]]||1):1}
@@ -1399,7 +1400,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
     };
     const ACCOMMODATIONS_STORAGE_KEY='manxinan-trip-accommodations';
     const bookingForm=$('#booking-form'),bookingId=$('#booking-id'),bookingDate=$('#booking-date'),bookingName=$('#booking-name'),bookingPrice=$('#booking-price'),bookingRooms=$('#booking-rooms'),bookingStatus=$('#booking-status'),bookingAddress=$('#booking-address'),bookingNote=$('#booking-note'),bookingDeadline=$('#booking-deadline'),bookingHint=$('#booking-hint'),cancelBooking=$('#cancel-booking');
-    const stayCities=['襄阳','宜昌','恩施','黔江','镇远','贵阳','安顺','兴义','抚仙湖','昆明','大理','腾冲','临沧','西双版纳','太原'];
+    const stayCities=['襄阳','宜昌','恩施','黔江','镇远','贵阳','安顺','兴义','抚仙湖','弥勒','昆明','大理','腾冲','临沧','西双版纳','太原'];
     const bookingCity=document.createElement('select'),bookingCityLabel=document.createElement('label');bookingCity.id='booking-city';bookingCity.required=true;bookingCity.innerHTML='<option value="">请选择城市</option>'+stayCities.map(city=>`<option value="${city}">${city}</option>`).join('');bookingCityLabel.append('对应城市',bookingCity);bookingDate.closest('label').insertAdjacentElement('afterend',bookingCityLabel);
     const money=value=>new Intl.NumberFormat('zh-CN',{style:'currency',currency:'CNY',maximumFractionDigits:0}).format(value||0);
     const readableDate=value=>{if(!value)return'日期待定';const date=new Date(value.length===10?`${value}T12:00:00`:value);return Number.isNaN(date.valueOf())?value:new Intl.DateTimeFormat('zh-CN',{month:'long',day:'numeric',hour:value.length>10?'2-digit':undefined,minute:value.length>10?'2-digit':undefined,hour12:false}).format(date)};
