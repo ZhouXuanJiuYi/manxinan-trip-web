@@ -1024,6 +1024,13 @@ svg.leaflet-image-layer.leaflet-interactive path {
     }
     @media(prefers-reduced-motion:reduce){.trip-metric-button,.trip-chart-canvas .chart-point{transition:none}.trip-chart-mobile-hint:after{animation:none}}
   </style>
+  <style>
+    /* 全站字重增强：正文更清晰，标题与关键信息继续保留层级。 */
+    body,body *{font-weight:600!important}
+    body h1,body h2,body h3,body h4,body h5,body h6,body b,body strong,body .eyebrow,body .kicker,body .brand,body button{font-weight:800!important}
+    body input::placeholder,body textarea::placeholder{font-weight:500!important}
+    body *::before,body *::after{font-weight:700!important}
+  </style>
 </head>
 <body>
   <header class="hero"><div class="top"><div class="brand"><i>漫</i> 西南夏日远行</div><div class="meta" id="trip-dates">● 2026 · 07.25 — 08.17　/　10 人自驾</div></div><div class="hero-copy"><div class="eyebrow">TAIYUAN / GUIZHOU / YUNNAN</div><h1>不是赶路，<br>是把一家人带进<em>山水之间。</em></h1></div><div class="hero-bottom"><div class="stat"><b id="trip-total-days">24</b><span>天行程</span></div><div class="stat"><b id="trip-total-km">—</b><span>公里自驾全程</span></div><div class="stat"><b>4</b><span>可选路线</span></div><div class="stat"><b>10</b><span>同游家人</span></div><button class="scroll" onclick="document.querySelector('#plans').scrollIntoView()">先选路线 <b>↓</b></button></div></header>
